@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  app:
+    depends_on:
+     - db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    command: sh -c '
+      python manage.py makemigrations;
+      python manage.py migrate;
+      python manage.py runserver 0.0.0.0:8000'
+    env_file:
+      - .env
+    volumes:
+      - .:/trading_django/
+#    healthcheck:
+#      test: curl --fail http://localhost:8000/admin/ || exit 1
+#      interval: 30s
+#      timeout: 5s
+#      retries: 5
+
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
