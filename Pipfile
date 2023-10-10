@@ -13,6 +13,7 @@ mypy = "*"
 isort = "*"
 pylint = "*"
 black = "*"
+pre-commit = "*"
 
 [dev-packages]
 
