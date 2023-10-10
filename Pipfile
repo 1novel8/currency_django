@@ -8,6 +8,11 @@ django = "*"
 djangorestframework = "*"
 python-dotenv = "*"
 psycopg2-binary = "*"
+flake8 = "*"
+mypy = "*"
+isort = "*"
+pylint = "*"
+black = "*"
 
 [dev-packages]
 
