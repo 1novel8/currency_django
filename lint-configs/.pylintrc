@@ -1,0 +1,20 @@
+[MASTER]
+ignore = migrations
+max-line-length = 120
+
+[MESSAGES CONTROL]
+disable = C0114, C0115, C0116, F0010
+
+[FORMAT]
+
+[DESIGN]
+
+[REPORTS]
+
+[BASIC]
+
+[TYPECHECK]
+
+[LOGGING]
+
+[EXTENSIONS]
