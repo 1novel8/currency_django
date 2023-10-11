@@ -1,12 +1,13 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 
-load_dotenv()
+from dotenv import load_dotenv  # pylint: disable=import-error
+
+load_dotenv()  # load .env
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')  # pylint: disable=no-member
 
 DEBUG = True
 
@@ -54,11 +55,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_NAME'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv('POSTGRES_HOST'),
-        'PORT': os.getenv('POSTGRES_PORT'),
+        'NAME': os.getenv('POSTGRES_NAME'),  # pylint: disable=no-member
+        'USER': os.getenv('POSTGRES_USER'),  # pylint: disable=no-member
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),  # pylint: disable=no-member
+        'HOST': os.getenv('POSTGRES_HOST'),  # pylint: disable=no-member
+        'PORT': os.getenv('POSTGRES_PORT'),  # pylint: disable=no-member
     }
 }
 

@@ -3,18 +3,6 @@
 # exit if error
 set -e
 
-# Install curl for healthcheck
-echo "Installing curl..."
-apt-get update
-apt-get install -y curl
-
-# Install dependencies
-echo "Installing dependencies..."
-python -m pip install --upgrade pip
-pip install pipenv
-pipenv lock
-pipenv install --dev --system --deploy
-
 # Run migrations
 echo "Running migrations..."
 

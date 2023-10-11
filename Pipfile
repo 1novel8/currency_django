@@ -14,8 +14,10 @@ isort = "*"
 pylint = "*"
 black = "*"
 pre-commit = "*"
+django-stubs = "*"
 
 [dev-packages]
+mypy = "*"
 
 [requires]
 python_version = "3.11"
