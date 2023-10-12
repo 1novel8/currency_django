@@ -11,6 +11,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')  # pylint: disable=no-member
 
 DEBUG = True
 
+AUTH_USER_MODEL = 'user.User'
+
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -20,6 +22,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'apps.authentication.apps.AuthenticationConfig',
+    'apps.user.apps.UserConfig',
+    'apps.currency.apps.CurrencyConfig',
+    'apps.order.apps.OrderConfig',
 ]
 
 MIDDLEWARE = [

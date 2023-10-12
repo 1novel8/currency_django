@@ -15,6 +15,7 @@ pylint = "*"
 black = "*"
 pre-commit = "*"
 django-stubs = "*"
+psycopg2 = "*"
 
 [dev-packages]
 mypy = "*"

@@ -15,12 +15,12 @@ COPY Pipfile Pipfile.lock ./
 
 # copy project & entrypointscript
 COPY ./src ./src
-COPY entrypoint-django.sh /entrypoint-django.sh
+# COPY entrypoint-django.sh ./
+ADD entrypoint-django.sh ./
 
 RUN python -m pip install --upgrade pip
 RUN pip install pipenv
-RUN pipenv lock
-RUN pipenv install --dev --system --deploy
+RUN pipenv sync
 
 # Give execute permissions to the entrypoint script
-RUN chmod +x /entrypoint-django.sh
+RUN chmod 777 ./entrypoint-django.sh
