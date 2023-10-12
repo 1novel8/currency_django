@@ -15,7 +15,7 @@ COPY Pipfile Pipfile.lock ./
 
 # copy project & entrypointscript
 COPY ./src ./src
-# COPY entrypoint-django.sh ./
+
 ADD entrypoint-django.sh ./
 
 RUN python -m pip install --upgrade pip

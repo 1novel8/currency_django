@@ -8,9 +8,7 @@ echo "Running migrations..."
 
 cd src
 
-#python manage.py makemigrations
 pipenv run python manage.py makemigrations
-#python manage.py migrate
 pipenv run python manage.py migrate
 
 # Run Django app
