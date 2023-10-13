@@ -1,12 +1,10 @@
 from django.contrib.auth.base_user import BaseUserManager
 
 from apps.base.enums import Role
-from apps.base.managers import BaseModelManager
 
 
 class CustomUserManager(
     BaseUserManager,
-    BaseModelManager,
 ):
     def create_user(self, username, email, password, **extra_fields):
         if email is None:
