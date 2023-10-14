@@ -16,6 +16,7 @@ black = "*"
 pre-commit = "*"
 django-stubs = "*"
 psycopg2 = "*"
+tomli = "*"
 
 [dev-packages]
 mypy = "*"

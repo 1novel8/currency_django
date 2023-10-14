@@ -13,7 +13,7 @@ DEBUG = True
 
 AUTH_USER_MODEL = 'user.User'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: list[str] = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',

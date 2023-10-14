@@ -1,12 +1,16 @@
+from typing import Any
+
 from django.contrib.auth.base_user import BaseUserManager
 
 from apps.base.enums import Role
 
 
 class CustomUserManager(
-    BaseUserManager,
+    BaseUserManager,  # type: ignore
 ):
-    def create_user(self, username, email, password, **extra_fields):
+    """ Manager for user Model """
+
+    def create_user(self, username: str, email: str, password: str, **extra_fields: dict[Any, Any]):  # type: ignore
         if email is None:
             raise ValueError('Users must have an email address.')
         if password is None:
@@ -22,7 +26,7 @@ class CustomUserManager(
         user.save()
         return user
 
-    def create_superuser(self, username, email, password):
+    def create_superuser(self, username: str, email: str, password: str):  # type: ignore
         user = self.create_user(
             username=username,
             email=email,
