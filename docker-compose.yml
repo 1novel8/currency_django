@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  app:
+    depends_on:
+     - db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${DJANGO_PORT}:${DJANGO_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - .:/trading_django/
+    entrypoint: ./entrypoint-django.sh
+    healthcheck:
+      test: curl --fail http://localhost:8000/admin/ || exit 1
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  db:
+    image: postgres
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
