@@ -27,6 +27,7 @@ repos:
               - django-stubs
               - python-dotenv
               - psycopg2
+              - djangorestframework
 
   -   repo: https://github.com/pre-commit/mirrors-pylint
       rev: 'v3.0.0a5'

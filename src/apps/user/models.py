@@ -45,6 +45,10 @@ class User(
         related_name='user_subscriptions',
     )
 
+    @property
+    def is_staff(self) -> bool:
+        return self.role == str(Role.ADMIN)
+
     USERNAME_FIELD = 'email'
 
     objects = CustomUserManager()
@@ -56,6 +60,8 @@ class User(
 
 
 class Wallet(BaseModel):
+    """ Wallet model"""
+
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE
