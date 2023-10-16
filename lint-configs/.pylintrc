@@ -3,7 +3,7 @@ ignore-paths = ^src/apps/.+/migrations/.*
 max-line-length = 120
 
 [MESSAGES CONTROL]
-disable = C0114, C0415, C0116, R0903, E0401
+disable = C0114, C0415, C0115, C0116, R0903, E0401
 
 [FORMAT]
 
