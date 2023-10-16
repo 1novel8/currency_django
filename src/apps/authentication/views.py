@@ -35,4 +35,5 @@ class AuthenticationViewSet(SerializeByActionMixin,
         serializer.is_valid(raise_exception=True)
         self.service.create_user(**serializer.validated_data)
 
+        serializer.validated_data.pop('password')
         return Response(data=serializer.validated_data, status=status.HTTP_201_CREATED)

@@ -71,6 +71,14 @@ DATABASES = {
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),  # pylint: disable=no-member
         'HOST': os.getenv('POSTGRES_HOST'),  # pylint: disable=no-member
         'PORT': os.getenv('POSTGRES_PORT'),  # pylint: disable=no-member
+    },
+    'test': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_TEST_NAME'),  # pylint: disable=no-member
+        'USER': os.getenv('POSTGRES_USER'),  # pylint: disable=no-member
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),  # pylint: disable=no-member
+        'HOST': os.getenv('POSTGRES_HOST'),  # pylint: disable=no-member
+        'PORT': os.getenv('POSTGRES_PORT'),  # pylint: disable=no-member
     }
 }
 

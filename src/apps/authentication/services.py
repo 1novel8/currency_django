@@ -12,7 +12,7 @@ User = get_user_model()
 
 class AuthenticationService:
     def create_user(self, email: str, username: str, password: str) -> None:
-        if not self.is_email_free(email=email):
+        if self.is_email_exists(email=email):
             raise EmailAlreadyInUse()
 
         User.objects.create_user(
@@ -53,5 +53,5 @@ class AuthenticationService:
             raise InvalidToken() from exc
 
     @staticmethod
-    def is_email_free(email: str) -> bool:
+    def is_email_exists(email: str) -> bool:
         return User.objects.filter(email=email).exists()
