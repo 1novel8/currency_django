@@ -13,7 +13,7 @@ class CustomUserManager(
     def create_user(   # type: ignore
             self, username: str,
             email: str, password: str,
-            role: Role = Role.USER,
+            role: str = Role.USER.name,
             **extra_fields: dict[str, Any]):
 
         if email is None:
@@ -37,9 +37,8 @@ class CustomUserManager(
             username='admin',
             email=email,
             password=password,
-            role=Role.ADMIN,
         )
         user.is_superuser = True
-        user.role = Role.ADMIN
+        user.role = Role.ADMIN.name
         user.save()
         return user
