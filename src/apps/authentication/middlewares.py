@@ -22,7 +22,6 @@ class JWTMiddleware:
             token = token.split(' ')[1]
             payload = AuthenticationService.decode_jwt(token=token)
             user = get_user_model().objects.get(id=payload['id'])
-            request.user = user
             login(request, user)
 
         except (TokenExpired, InvalidToken, InvalidHeader):

@@ -52,5 +52,6 @@ class AuthenticationService:
         except jwt.DecodeError as exc:
             raise InvalidToken() from exc
 
-    def is_email_free(self, email: str) -> bool:
-        return User.objects.filter(email=email).count() == 0
+    @staticmethod
+    def is_email_free(email: str) -> bool:
+        return User.objects.filter(email=email).exists()

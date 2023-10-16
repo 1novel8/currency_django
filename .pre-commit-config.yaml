@@ -28,6 +28,7 @@ repos:
               - python-dotenv
               - psycopg2
               - djangorestframework
+              - pyjwt
 
   -   repo: https://github.com/pre-commit/mirrors-pylint
       rev: 'v3.0.0a5'
