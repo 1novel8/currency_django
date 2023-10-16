@@ -34,7 +34,7 @@ class AuthenticationService:
             'id': user.id,  # type: ignore
             'email': user.email,  # type: ignore
             'role': user.role,  # type: ignore
-            'expired': (datetime.now() + token_expire).timestamp()  # type: ignore
+            'expired': (datetime.now() + token_expire).timestamp()
         }
 
         token: str = jwt.encode(payload, secret_key, algorithm='HS256')

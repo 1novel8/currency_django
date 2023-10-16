@@ -96,7 +96,6 @@ REST_FRAMEWORK = {
 }
 
 JWT = {
-    'HEADER': 'Bearer',
     'TOKEN_EXPIRE': timedelta(days=1),
 }
 
