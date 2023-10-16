@@ -12,6 +12,8 @@ class RegisterSerializer(serializers.Serializer):
     password2 = serializers.CharField(required=True, max_length=200, write_only=True)
 
     def validate(self, attrs: dict[str, Any]) -> Any:
+        """ Check if passwords the same and creates only "password" field """
+
         password1 = attrs.pop('password1')
         password2 = attrs.pop('password2')
         if password1 != password2:
@@ -19,3 +21,10 @@ class RegisterSerializer(serializers.Serializer):
 
         attrs['password'] = password1
         return attrs
+
+
+class LoginSerializer(serializers.Serializer):
+    """Login Serializer"""
+
+    email = serializers.EmailField(required=True, write_only=True)
+    password = serializers.CharField(required=True, max_length=200, write_only=True)
