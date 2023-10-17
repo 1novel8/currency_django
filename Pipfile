@@ -18,6 +18,8 @@ django-stubs = "*"
 psycopg2 = "*"
 tomli = "*"
 pyjwt = "*"
+pytest = "*"
+pytest-django = "*"
 
 [dev-packages]
 mypy = "*"

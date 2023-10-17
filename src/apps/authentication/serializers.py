@@ -8,18 +8,17 @@ class RegisterSerializer(serializers.Serializer):
 
     username = serializers.CharField(required=True, max_length=50)
     email = serializers.EmailField(required=True)
+    password = serializers.CharField(required=True, max_length=200, write_only=True)
     password1 = serializers.CharField(required=True, max_length=200, write_only=True)
-    password2 = serializers.CharField(required=True, max_length=200, write_only=True)
 
     def validate(self, attrs: dict[str, Any]) -> Any:
         """ Check if passwords the same and creates only "password" field """
 
+        password = attrs.get('password')
         password1 = attrs.pop('password1')
-        password2 = attrs.pop('password2')
-        if password1 != password2:
+        if password != password1:
             raise serializers.ValidationError("Passwords do not match.")
 
-        attrs['password'] = password1
         return attrs
 
 

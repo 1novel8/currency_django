@@ -3,23 +3,23 @@ from typing import Any
 
 import jwt
 from django.conf import settings
-from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth import authenticate
 
-from apps.authentication.exceptions import BadCredentials, EmailAlreadyInUse, InvalidToken, TokenExpired
-
-User = get_user_model()
+from apps.authentication.exceptions import BadCredentials, EmailAlreadyExists, InvalidToken, TokenExpired
+from apps.user.models import User
 
 
 class AuthenticationService:
-    def create_user(self, email: str, username: str, password: str) -> None:
-        if not self.is_email_free(email=email):
-            raise EmailAlreadyInUse()
+    def create_user(self, email: str, username: str, password: str) -> User | Any:
+        if self.is_email_exists(email=email):
+            raise EmailAlreadyExists()
 
-        User.objects.create_user(
+        user = User.objects.create_user(
             email=email,
             username=username,
             password=password
         )
+        return user
 
     @classmethod
     def generate_jwt(cls, email: str, password: str) -> str:
@@ -53,5 +53,5 @@ class AuthenticationService:
             raise InvalidToken() from exc
 
     @staticmethod
-    def is_email_free(email: str) -> bool:
+    def is_email_exists(email: str) -> bool:
         return User.objects.filter(email=email).exists()
