@@ -33,7 +33,6 @@ class AuthenticationViewSet(SerializeByActionMixin,
     def register(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        self.service.create_user(**serializer.validated_data)
-
-        serializer.validated_data.pop('password')
-        return Response(data=serializer.validated_data, status=status.HTTP_201_CREATED)
+        user = self.service.create_user(**serializer.validated_data)
+        serializer = self.get_serializer(user)
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
