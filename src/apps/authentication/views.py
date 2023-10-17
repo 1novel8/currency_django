@@ -10,8 +10,10 @@ from apps.base.mixins import SerializeByActionMixin
 from apps.user.models import User
 
 
-class AuthenticationViewSet(SerializeByActionMixin,
-                            GenericViewSet):
+class AuthenticationViewSet(
+    SerializeByActionMixin,
+    GenericViewSet,
+):
     """ Auth ViewSet """
 
     serialize_by_action = {

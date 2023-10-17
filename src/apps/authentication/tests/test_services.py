@@ -1,5 +1,5 @@
 import pytest
-from conftest import user1
+from conftest import user1  # noqa: F401
 
 from apps.authentication.exceptions import BadCredentials, EmailAlreadyExists, InvalidToken
 from apps.authentication.services import AuthenticationService
@@ -24,24 +24,16 @@ def test_create_user():
 
 
 @pytest.mark.django_db
-def test_create_user_failure(user1):
+def test_create_user_failure(user1):  # noqa: F811
     service = AuthenticationService()
     service.create_user(**raw_user)
 
-    with pytest.raises(EmailAlreadyExists) as exc:
+    with pytest.raises(EmailAlreadyExists):
         service.create_user(**raw_user)
 
 
 @pytest.mark.django_db
-def test_is_email_exists(user1):
-    service = AuthenticationService()
-
-    assert service.is_email_exists(raw_user['email']) is False
-    assert service.is_email_exists(user1.email) is True
-
-
-@pytest.mark.django_db
-def test_generate_jwt(user1):
+def test_generate_jwt(user1):  # noqa: F811
     service = AuthenticationService()
     token = service.generate_jwt(email=user1.email, password='1')
 
@@ -57,24 +49,24 @@ def test_generate_jwt_failure():
 
 
 @pytest.mark.django_db
-def test_decode_jwt(user1):
+def test_decode_jwt(user1):  # noqa: F811
     service = AuthenticationService()
     token = service.generate_jwt(email=user1.email, password='1')
     payload = service.decode_jwt(token=token)
-    assert payload.get('id', None) == user1.id
-    assert payload.get('email', None) == user1.email
-    assert payload.get('role', None) == user1.role
+    assert payload['id'] == user1.id
+    assert payload['email'] == user1.email
+    assert payload['role'] == user1.role
 
 
 @pytest.mark.django_db
-def test_decode_jwt_failure(user1):
+def test_decode_jwt_failure(user1):  # noqa: F811
     service = AuthenticationService()
-    with pytest.raises(InvalidToken) as exc:
+    with pytest.raises(InvalidToken):
         service.decode_jwt(token='124')
 
 
 @pytest.mark.django_db
-def test_is_email_exist(user1):
+def test_is_email_exist(user1):  # noqa: F811
     service = AuthenticationService()
     assert service.is_email_exists(user1.email) is True
 

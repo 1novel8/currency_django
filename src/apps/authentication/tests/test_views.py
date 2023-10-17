@@ -37,8 +37,6 @@ def test_register_view() -> None:
     )
 
     assert response.status_code == 201
-    assert 'username' in response.data
-    assert 'email' in response.data
     assert 'password' not in response.data
 
     assert response.data['username'] == '1'

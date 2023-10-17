@@ -14,12 +14,12 @@ class AuthenticationService:
         if self.is_email_exists(email=email):
             raise EmailAlreadyExists()
 
-        obj = User.objects.create_user(
+        user = User.objects.create_user(
             email=email,
             username=username,
             password=password
         )
-        return obj
+        return user
 
     @classmethod
     def generate_jwt(cls, email: str, password: str) -> str:
