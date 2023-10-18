@@ -3,6 +3,7 @@ from django.urls import include, path
 
 api = [
     path('', include('apps.authentication.urls')),
+    path('', include('apps.currency.urls')),
 ]
 
 urlpatterns = [
