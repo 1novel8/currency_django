@@ -1,5 +1,4 @@
 import pytest
-from conftest import user1  # noqa: F401
 
 from apps.authentication.exceptions import BadCredentials, EmailAlreadyExists, InvalidToken
 from apps.authentication.services import AuthenticationService
