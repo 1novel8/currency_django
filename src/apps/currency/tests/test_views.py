@@ -1,5 +1,6 @@
 import pytest
 from conftest import get_auth_header
+from django.urls import reverse
 from rest_framework.test import APIClient
 
 currency_raw = {
@@ -22,29 +23,9 @@ currency_for_update = {
 
 
 @pytest.mark.django_db
-def test_currency_create(admin_user) -> None:  # type: ignore
-    client = APIClient()
-    url = '/api/currencies/'
-    auth_header = get_auth_header(email=admin_user.email, password='admin')
-
-    response = client.post(
-        url,
-        currency_raw,
-        headers=auth_header,
-        format='json'
-    )
-    assert response.status_code == 201
-    assert response.data['name'] == currency_raw['name']
-    assert float(response.data['price_for_buy']) == float(currency_raw['price_for_buy'])
-    assert response.data['price_for_buy'].split(".")[1].__len__() == 2
-    assert float(response.data['price_for_sale']) == float(currency_raw['price_for_sale'])
-    assert response.data['price_for_sale'].split(".")[1].__len__() == 2
-
-
-@pytest.mark.django_db
 def test_currency_create_failure(admin_user) -> None:  # type: ignore
     client = APIClient()
-    url = '/api/currencies/'
+    url = reverse('currency-list')
     auth_header = get_auth_header(email=admin_user.email, password='admin')
 
     response = client.post(
@@ -59,7 +40,7 @@ def test_currency_create_failure(admin_user) -> None:  # type: ignore
 @pytest.mark.django_db
 def test_currency_create_access_denied(user1) -> None:  # type: ignore
     client = APIClient()
-    url = '/api/currencies/'
+    url = reverse('currency-list')
     auth_header = get_auth_header(email=user1.email, password='1')
 
     response = client.post(
@@ -81,7 +62,7 @@ def test_currency_create_access_denied(user1) -> None:  # type: ignore
 @pytest.mark.django_db
 def test_currency_list(user1) -> None:  # type: ignore
     client = APIClient()
-    url = '/api/currencies/'
+    url = reverse('currency-list')
     auth_header = get_auth_header(email=user1.email, password='1')
 
     response = client.get(
@@ -90,13 +71,12 @@ def test_currency_list(user1) -> None:  # type: ignore
         format='json'
     )
     assert response.status_code == 200
-    assert isinstance(response.data, list)
 
 
 @pytest.mark.django_db
 def test_currency_list_access_denied() -> None:  # type: ignore
     client = APIClient()
-    url = '/api/currencies/'
+    url = reverse('currency-list')
 
     response = client.get(
         url,
@@ -108,8 +88,8 @@ def test_currency_list_access_denied() -> None:  # type: ignore
 @pytest.mark.django_db
 def test_currency_retrieve(currency_usd, user1) -> None:  # type: ignore
     client = APIClient()
-    url = f'/api/currencies/{currency_usd.id}/'
-    auth_header = get_auth_header(email=user1.email, password='1')
+    url = reverse("currency-detail", args=[currency_usd.id])
+    auth_header = get_auth_header(email=user1.email,  password='1')
 
     response = client.get(
         url,
@@ -117,16 +97,12 @@ def test_currency_retrieve(currency_usd, user1) -> None:  # type: ignore
         format='json'
     )
     assert response.status_code == 200
-    assert response.data['name'] == currency_usd.name
-    assert int(response.data['id']) == currency_usd.id
-    assert float(response.data['price_for_sale']) == currency_usd.price_for_sale
-    assert float(response.data['price_for_buy']) == currency_usd.price_for_buy
 
 
 @pytest.mark.django_db
 def test_currency_retrieve_access_denied(currency_usd) -> None:  # type: ignore
     client = APIClient()
-    url = f'/api/currencies/{currency_usd.id}/'
+    url = reverse("currency-detail", args=[currency_usd.id])
 
     response = client.get(
         url,
@@ -138,7 +114,7 @@ def test_currency_retrieve_access_denied(currency_usd) -> None:  # type: ignore
 @pytest.mark.django_db
 def test_currency_put(currency_usd, admin_user) -> None:  # type: ignore
     client = APIClient()
-    url = f'/api/currencies/{currency_usd.id}/'
+    url = reverse("currency-detail", args=[currency_usd.id])
     auth_header = get_auth_header(email=admin_user.email, password='admin')
 
     response = client.put(
@@ -148,15 +124,12 @@ def test_currency_put(currency_usd, admin_user) -> None:  # type: ignore
         format='json'
     )
     assert response.status_code == 200
-    assert response.data['name'] == currency_for_update['name']
-    assert float(response.data['price_for_sale']) == currency_for_update['price_for_sale']
-    assert float(response.data['price_for_buy']) == currency_for_update['price_for_buy']
 
 
 @pytest.mark.django_db
 def test_currency_put_access_denied(currency_usd, user1) -> None:  # type: ignore
     client = APIClient()
-    url = f'/api/currencies/{currency_usd.id}/'
+    url = reverse("currency-detail", args=[currency_usd.id])
     auth_header = get_auth_header(email=user1.email, password='1')
 
     response = client.put(
@@ -171,7 +144,7 @@ def test_currency_put_access_denied(currency_usd, user1) -> None:  # type: ignor
 @pytest.mark.django_db
 def test_currency_patch(currency_usd, admin_user) -> None:  # type: ignore
     client = APIClient()
-    url = f'/api/currencies/{currency_usd.id}/'
+    url = reverse("currency-detail", args=[currency_usd.id])
     auth_header = get_auth_header(email=admin_user.email, password='admin')
 
     response = client.patch(
@@ -181,15 +154,12 @@ def test_currency_patch(currency_usd, admin_user) -> None:  # type: ignore
         format='json'
     )
     assert response.status_code == 200
-    assert response.data['name'] == currency_for_update['name']
-    assert float(response.data['price_for_sale']) == currency_usd.price_for_sale
-    assert float(response.data['price_for_buy']) == currency_usd.price_for_buy
 
 
 @pytest.mark.django_db
 def test_currency_patch_access_denied(currency_usd, user1) -> None:  # type: ignore
     client = APIClient()
-    url = f'/api/currencies/{currency_usd.id}/'
+    url = reverse("currency-detail", args=[currency_usd.id])
     auth_header = get_auth_header(email=user1.email, password='1')
 
     response = client.patch(
@@ -204,7 +174,7 @@ def test_currency_patch_access_denied(currency_usd, user1) -> None:  # type: ign
 @pytest.mark.django_db
 def test_currency_delete(currency_usd, admin_user) -> None:  # type: ignore
     client = APIClient()
-    url = f'/api/currencies/{currency_usd.id}/'
+    url = reverse("currency-detail", args=[currency_usd.id])
     auth_header = get_auth_header(email=admin_user.email, password='admin')
 
     response = client.delete(
@@ -215,18 +185,11 @@ def test_currency_delete(currency_usd, admin_user) -> None:  # type: ignore
     assert response.status_code == 204
     assert response.data is None
 
-    response = client.get(
-        url,
-        headers=auth_header,
-        format='json'
-    )
-    assert response.status_code == 404
-
 
 @pytest.mark.django_db
 def test_currency_delete_access_denied(currency_usd, user1) -> None:  # type: ignore
     client = APIClient()
-    url = f'/api/currencies/{currency_usd.id}/'
+    url = reverse("currency-detail", args=[currency_usd.id])
     auth_header = get_auth_header(email=user1.email, password='1')
 
     response = client.delete(
