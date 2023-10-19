@@ -23,6 +23,24 @@ currency_for_update = {
 
 
 @pytest.mark.django_db
+def test_currency_create(admin_user) -> None:  # type: ignore
+    client = APIClient()
+    url = reverse('currency-list')
+    auth_header = get_auth_header(email=admin_user.email, password='admin')
+
+    response = client.post(
+        url,
+        currency_raw,
+        headers=auth_header,
+        format='json'
+    )
+    assert response.status_code == 400
+    assert response.data['name'] == currency_raw['name']
+    assert float(response.data['price_for_buy']) == float(currency_raw['price_for_buy'])
+    assert float(response.data['price_for_sale']) == float(currency_raw['price_for_sale'])
+
+
+@pytest.mark.django_db
 def test_currency_create_failure(admin_user) -> None:  # type: ignore
     client = APIClient()
     url = reverse('currency-list')
