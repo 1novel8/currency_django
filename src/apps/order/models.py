@@ -38,6 +38,10 @@ class Order(BaseModel):
         choices=OrderStatus.choices(),
         default=OrderStatus.IN_PROGRESS,
     )
+    wallet = models.ForeignKey(
+        'user.Wallet',
+        on_delete=models.CASCADE,
+    )
 
     class Meta:
         db_table = "order"

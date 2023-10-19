@@ -1,11 +1,12 @@
 import pytest
+from django.urls import reverse
 from rest_framework.test import APIClient
 
 
 @pytest.mark.django_db
 def test_login_view(user1) -> None:  # type: ignore
     client = APIClient()
-    url = '/api/auth/login/'
+    url = reverse('auth-login')
 
     response = client.post(
         url,
@@ -23,7 +24,7 @@ def test_login_view(user1) -> None:  # type: ignore
 @pytest.mark.django_db
 def test_register_view() -> None:
     client = APIClient()
-    url = '/api/auth/register/'
+    url = reverse('auth-register')
 
     response = client.post(
         url,
