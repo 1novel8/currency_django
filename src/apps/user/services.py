@@ -1,31 +1,27 @@
 from typing import Any
 
-from django.core.exceptions import ObjectDoesNotExist
-
 from apps.authentication.exceptions import EmailAlreadyExists
-from apps.base.exceptions import NotFound
+from apps.base.services import BaseService
 from apps.user.models import User
+from apps.user.repositories import UserRepository
 
 
-class UserService:
-    model = User
+class UserService(BaseService):
+    repository = UserRepository()
 
     def is_email_exists(self, email: str) -> bool | Any:
-        return self.model.objects.filter(email=email).exists()
+        return self.repository.is_email_exists(email=email)
 
-    def get_user_by_email(self, email: str) -> User | Any:
-        try:
-            return self.model.objects.get(email=email)
-        except ObjectDoesNotExist as exc:
-            raise NotFound('User with such email not found') from exc
+    def get_by_email(self, email: str) -> User | Any:
+        return self.repository.get_by_email(email=email)
 
-    def create(self, email: str, username: str, password: str) -> User | Any:
+    def create(self, email: str, username: str, password: str) -> User | Any:  # type: ignore
         if self.is_email_exists(email=email):
             raise EmailAlreadyExists()
 
-        user = User.objects.create_user(
+        user = super().create(
             email=email,
             username=username,
-            password=password
+            password=password,
         )
         return user

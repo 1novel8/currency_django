@@ -23,7 +23,7 @@ class AuthenticationService:
         return user
 
     def reset_password(self, email: str, username: str) -> None:
-        user = self.user_service.get_user_by_email(email=email)
+        user = self.user_service.get_by_email(email=email)
         if user.username != username:
             raise WrongUsername
 
