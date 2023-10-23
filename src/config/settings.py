@@ -6,6 +6,10 @@ from dotenv import load_dotenv  # pylint: disable=import-error
 
 load_dotenv()  # load .env
 
+NOTIFICATION_PERIOD = timedelta(minutes=5)
+HOST_URL = os.getenv('DJANGO_HOST')  # pylint: disable=no-member
+HOST_PORT = os.getenv('DJANGO_PORT')  # pylint: disable=no-member
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')  # pylint: disable=no-member
@@ -119,7 +123,7 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")  # pylint: disable=n
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Minsk'
 
 USE_I18N = True
 

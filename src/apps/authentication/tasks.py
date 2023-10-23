@@ -1,10 +1,10 @@
-import os
-
 from celery import shared_task
+from django.conf import settings
 from django.core.mail import send_mail
 
-HOST_URL = os.getenv('DJANGO_HOST')  # pylint: disable=no-member
-HOST_PORT = os.getenv('DJANGO_PORT')  # pylint: disable=no-member
+HOST_URL = settings.HOST_URL
+HOST_PORT = settings.HOST_PORT
+EMAIL_HOST_USER = settings.EMAIL_HOST_USER
 
 
 @shared_task()
@@ -18,7 +18,7 @@ def send_new_password(new_password: str, email: str) -> None:
               f'You can change it here:\n' \
               f'{reset_password_url}'
 
-    from_email = os.environ.get("EMAIL_HOST_USER")  # pylint: disable=no-member
+    from_email = EMAIL_HOST_USER
     to_email = [email]
     send_mail(
         subject=subject,
