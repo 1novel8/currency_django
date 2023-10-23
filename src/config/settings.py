@@ -1,9 +1,14 @@
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv  # pylint: disable=import-error
 
 load_dotenv()  # load .env
+
+NOTIFICATION_PERIOD = timedelta(minutes=5)
+HOST_URL = os.getenv('DJANGO_HOST')  # pylint: disable=no-member
+HOST_PORT = os.getenv('DJANGO_PORT')  # pylint: disable=no-member
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,6 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
 
     'apps.authentication.apps.AuthenticationConfig',
     'apps.user.apps.UserConfig',
@@ -67,6 +74,14 @@ DATABASES = {
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),  # pylint: disable=no-member
         'HOST': os.getenv('POSTGRES_HOST'),  # pylint: disable=no-member
         'PORT': os.getenv('POSTGRES_PORT'),  # pylint: disable=no-member
+    },
+    'test': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_TEST_NAME'),  # pylint: disable=no-member
+        'USER': os.getenv('POSTGRES_USER'),  # pylint: disable=no-member
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),  # pylint: disable=no-member
+        'HOST': os.getenv('POSTGRES_HOST'),  # pylint: disable=no-member
+        'PORT': os.getenv('POSTGRES_PORT'),  # pylint: disable=no-member
     }
 }
 
@@ -85,9 +100,32 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'apps.authentication.authentication_classes.JWTAuthentication',
+    )
+}
+
+JWT = {
+    'TOKEN_EXPIRE': timedelta(days=1),
+}
+
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER")  # pylint: disable=no-member
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER")  # pylint: disable=no-member
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")  # pylint: disable=no-member
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")  # pylint: disable=no-member
+
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Minsk'
 
 USE_I18N = True
 

@@ -10,7 +10,15 @@ class CustomUserManager(
 ):
     """ Manager for user Model """
 
-    def create_user(self, username: str, email: str, password: str, **extra_fields: dict[Any, Any]):  # type: ignore
+    def create_user(   # type: ignore
+            self,
+            username: str,
+            email: str, password: str,
+            role: str = Role.USER.name,
+            is_superuser: bool = False,
+            **extra_fields: dict[str, Any]
+    ):
+
         if email is None:
             raise ValueError('Users must have an email address.')
         if password is None:
@@ -20,18 +28,20 @@ class CustomUserManager(
         user = self.model(
             username=username,
             email=self.normalize_email(email),
+            role=role,
+            is_superuser=is_superuser,
             **extra_fields,
         )
         user.set_password(password)
         user.save()
         return user
 
-    def create_superuser(self, username: str, email: str, password: str):  # type: ignore
+    def create_superuser(self, email: str, password: str):  # type: ignore
         user = self.create_user(
-            username=username,
+            username='admin',
             email=email,
-            password=password)
-        user.is_superuser = True
-        user.role = Role.ADMIN
-        user.save()
+            password=password,
+            role=Role.ADMIN.name,
+            is_superuser=True,
+        )
         return user

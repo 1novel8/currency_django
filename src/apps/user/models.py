@@ -32,7 +32,7 @@ class User(
         max_length=10,
         blank=False,
         choices=Role.choices(),
-        default=Role.USER,
+        default=Role.USER.name,
     )
     balance = models.DecimalField(
         "Balance",
@@ -45,6 +45,10 @@ class User(
         related_name='user_subscriptions',
     )
 
+    @property
+    def is_staff(self) -> bool:
+        return self.role == Role.ADMIN.name
+
     USERNAME_FIELD = 'email'
 
     objects = CustomUserManager()
@@ -56,6 +60,8 @@ class User(
 
 
 class Wallet(BaseModel):
+    """ Wallet model"""
+
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE

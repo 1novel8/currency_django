@@ -16,9 +16,42 @@ services:
     entrypoint: ./entrypoint-django.sh
     healthcheck:
       test: curl --fail http://localhost:8000/admin/ || exit 1
-      interval: 30s
+      interval: 10s
       timeout: 5s
       retries: 5
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: worker
+    entrypoint: ./entrypoint-celery-worker.sh
+    volumes:
+      - .:/trading_django/
+    env_file:
+      - .env
+    depends_on:
+      app:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      schedule:
+        condition: service_started
+
+  schedule:
+    build:
+      context: .
+    hostname: schedule
+    entrypoint: ./entrypoint-celery-schedule.sh
+    volumes:
+      - .:/trading_django/
+    env_file:
+      - .env
+    depends_on:
+      app:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
   db:
     image: postgres
@@ -28,6 +61,10 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - .env
+
+  redis:
+    image: redis
+    restart: always
 
 volumes:
   postgres_data:

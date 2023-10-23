@@ -14,6 +14,7 @@ repos:
           args: [
             '--config', 'lint-configs/.flake8',
           ]
+          exclude: "migrations"
 
   -   repo: https://github.com/pre-commit/mirrors-mypy
       rev: 'v1.5.1'
@@ -27,6 +28,11 @@ repos:
               - django-stubs
               - python-dotenv
               - psycopg2
+              - djangorestframework
+              - pyjwt
+              - pytest
+              - celery
+            exclude: "tests|conftest.py|migrations"
 
   -   repo: https://github.com/pre-commit/mirrors-pylint
       rev: 'v3.0.0a5'
