@@ -20,6 +20,8 @@ tomli = "*"
 pyjwt = "*"
 pytest = "*"
 pytest-django = "*"
+celery = "*"
+redis = "*"
 
 [dev-packages]
 mypy = "*"

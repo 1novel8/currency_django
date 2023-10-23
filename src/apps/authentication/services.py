@@ -5,21 +5,43 @@ import jwt
 from django.conf import settings
 from django.contrib.auth import authenticate
 
-from apps.authentication.exceptions import BadCredentials, EmailAlreadyExists, InvalidToken, TokenExpired
+from apps.authentication.exceptions import BadCredentials, InvalidToken, TokenExpired, WrongPassword, WrongUsername
+from apps.authentication.tasks import send_new_password
 from apps.user.models import User
+from apps.user.services import UserService
 
 
 class AuthenticationService:
-    def create_user(self, email: str, username: str, password: str) -> User | Any:
-        if self.is_email_exists(email=email):
-            raise EmailAlreadyExists()
+    user_service = UserService()
 
-        user = User.objects.create_user(
+    def create_user(self, email: str, username: str, password: str) -> User:
+        user = self.user_service.create(
             email=email,
+            password=password,
             username=username,
-            password=password
         )
         return user
+
+    def reset_password(self, email: str, username: str) -> None:
+        user = self.user_service.get_by_email(email=email)
+        if user.username != username:
+            raise WrongUsername
+
+        new_password = User.objects.make_random_password()
+        user.set_password(new_password)
+        send_new_password.delay(
+            email=email,
+            new_password=new_password,
+        )
+        user.save()
+
+    @staticmethod
+    def change_password(user: User, old_password: str, new_password: str) -> None:
+        if user.check_password(old_password):
+            user.set_password(new_password)
+            user.save()
+        else:
+            raise WrongPassword
 
     @classmethod
     def generate_jwt(cls, email: str, password: str) -> str:
@@ -51,7 +73,3 @@ class AuthenticationService:
             return payload
         except jwt.DecodeError as exc:
             raise InvalidToken() from exc
-
-    @staticmethod
-    def is_email_exists(email: str) -> bool:
-        return User.objects.filter(email=email).exists()

@@ -31,6 +31,7 @@ repos:
               - djangorestframework
               - pyjwt
               - pytest
+              - celery
             exclude: "tests|conftest.py|migrations"
 
   -   repo: https://github.com/pre-commit/mirrors-pylint
