@@ -33,12 +33,12 @@ class UserService(BaseService):
 class WalletService(BaseService):
     repository = WalletRepository()
 
-    def create(self, **kwargs: Any) -> None:
+    def create(self, **kwargs: Any) -> Wallet | Any:
         currency = kwargs['currency']
         user = kwargs['user']
         if self.is_exist(user=user, currency=currency):
             raise WalletAlreadyExists
-        super().create(user=user, **kwargs)
+        return super().create(**kwargs)
 
     def is_exist(self, user: User, currency: Currency) -> bool:
         return self.repository.is_exist(user=user, currency=currency)

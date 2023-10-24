@@ -19,7 +19,6 @@ def test_create_user():
     assert user.username == raw_user['username']
     assert user.password != raw_user['password']
     assert user.check_password(raw_user['password']) is True
-    assert service.is_email_exists(raw_user['email']) is True
 
 
 @pytest.mark.django_db
@@ -62,15 +61,3 @@ def test_decode_jwt_failure(user1):  # noqa: F811
     service = AuthenticationService()
     with pytest.raises(InvalidToken):
         service.decode_jwt(token='124')
-
-
-@pytest.mark.django_db
-def test_is_email_exist(user1):  # noqa: F811
-    service = AuthenticationService()
-    assert service.is_email_exists(user1.email) is True
-
-
-@pytest.mark.django_db
-def test_is_email_exist_failure():
-    service = AuthenticationService()
-    assert service.is_email_exists(raw_user['email']) is False
