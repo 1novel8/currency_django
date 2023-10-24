@@ -5,6 +5,7 @@ api = [
     path('', include('apps.authentication.urls')),
     path('', include('apps.currency.urls')),
     path('', include('apps.user.urls')),
+    path('', include('apps.order.urls'))
 ]
 
 urlpatterns = [

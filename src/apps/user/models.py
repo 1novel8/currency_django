@@ -77,6 +77,9 @@ class Wallet(BaseModel):
         default=0,
     )
 
+    def __str__(self) -> str:
+        return f'wallet:{self.currency.name} - {self.balance}'
+
     class Meta:
         db_table = "wallet"
         verbose_name = "Wallet"
