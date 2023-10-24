@@ -22,6 +22,9 @@ class Currency(BaseModel):
         default=0,
     )
 
+    def __str__(self) -> str:
+        return self.name
+
     class Meta:
         db_table = "currency"
         verbose_name = "Currency"

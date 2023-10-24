@@ -34,7 +34,8 @@ def test_currency_create(admin_user) -> None:  # type: ignore
         headers=auth_header,
         format='json'
     )
-    assert response.status_code == 400
+
+    assert response.status_code == 201
     assert response.data['name'] == currency_raw['name']
     assert float(response.data['price_for_buy']) == float(currency_raw['price_for_buy'])
     assert float(response.data['price_for_sale']) == float(currency_raw['price_for_sale'])
