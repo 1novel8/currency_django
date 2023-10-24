@@ -1,9 +1,12 @@
 from typing import Any
 
 from apps.authentication.exceptions import EmailAlreadyExists
+from apps.base.exceptions import NotFound
 from apps.base.services import BaseService
-from apps.user.models import User
-from apps.user.repositories import UserRepository
+from apps.currency.models import Currency
+from apps.user.exceptions import WalletAlreadyExists
+from apps.user.models import User, Wallet
+from apps.user.repositories import UserRepository, WalletRepository
 
 
 class UserService(BaseService):
@@ -25,3 +28,24 @@ class UserService(BaseService):
             password=password,
         )
         return user
+
+
+class WalletService(BaseService):
+    repository = WalletRepository()
+
+    def create(self, **kwargs: Any) -> None:
+        currency = kwargs.get('currency')
+        user = kwargs.get('user')
+        if currency is None or user is None:
+            raise Exception
+        if self.is_exist(user=user, currency=currency):
+            raise WalletAlreadyExists
+        super().create(user=user, **kwargs)
+
+    def is_exist(self, user: User, currency: Currency) -> bool:
+        return self.repository.is_exist(user=user, currency=currency)
+
+    def delete(self, user: User, wallet: Wallet) -> None:
+        if not self.is_exist(user=user, currency=wallet.currency):
+            raise NotFound('User have no such wallet')
+        self.repository.delete(user=user, wallet=wallet)

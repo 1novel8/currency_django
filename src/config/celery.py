@@ -12,6 +12,6 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'currency-updated-notification': {
         'task': 'apps.currency.tasks.currency_updated_notification',
-        'schedule': '300',
+        'schedule': 300,
     },
 }
