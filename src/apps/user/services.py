@@ -34,10 +34,8 @@ class WalletService(BaseService):
     repository = WalletRepository()
 
     def create(self, **kwargs: Any) -> None:
-        currency = kwargs.get('currency')
-        user = kwargs.get('user')
-        if currency is None or user is None:
-            raise Exception
+        currency = kwargs['currency']
+        user = kwargs['user']
         if self.is_exist(user=user, currency=currency):
             raise WalletAlreadyExists
         super().create(user=user, **kwargs)
