@@ -50,6 +50,6 @@ def currency_updated_notification() -> None:
                     },
                 },
             }
-        )  # pylint: disable=R0801
+        )
 
     check_orders.delay()
