@@ -13,7 +13,7 @@ class OrderService(BaseService):
 
     def create(self, **kwargs: Any) -> Order | Any:
         wallet = kwargs['wallet']
-        user = kwargs['user']
+        user = kwargs.pop('user')
         if wallet.user != user:
             raise NotFound('No such wallet')
         return super().create(**kwargs)

@@ -10,6 +10,7 @@ class OrderSerializer(serializers.ModelSerializer):
             'id',
             'type',
             'price',
+            'count',
             'finished_at',
             'status',
             'wallet',
