@@ -1,6 +1,7 @@
 from celery import shared_task
 from django.conf import settings
-from django.core.mail import send_mail
+
+from apps.base.localstack import ses_client
 
 HOST_URL = settings.HOST_URL
 HOST_PORT = settings.HOST_PORT
@@ -19,11 +20,21 @@ def send_new_password(new_password: str, email: str) -> None:
               f'{reset_password_url}'
 
     from_email = EMAIL_HOST_USER
-    to_email = [email]
-    send_mail(
-        subject=subject,
-        message=message,
-        from_email=from_email,
-        recipient_list=to_email,
-        fail_silently=False
+    to_email_list = [email]
+
+    ses_client.send_email(
+        Source=from_email,
+        Destination={
+            'ToAddresses': to_email_list,
+        },
+        Message={
+            'Subject': {
+                'Data': subject,
+            },
+            'Body': {
+                'Text': {
+                    'Data': message,
+                },
+            },
+        }
     )
