@@ -20,3 +20,7 @@ class OrderSerializer(serializers.ModelSerializer):
             'finished_at',
             'status',
         )
+
+
+class OrderCancelSerializer(serializers.Serializer):
+    pass
