@@ -13,7 +13,7 @@ app.autodiscover_tasks()
 app.conf.task_queues = (
     Queue('default', Exchange('default'), routing_key='default'),
     Queue('email',  Exchange('email'),   routing_key='email'),
-    Queue('periodic',  Exchange('periodic'),   routing_key='periodic'),
+    Queue('orders',  Exchange('orders'),   routing_key='orders'),
 )
 
 app.conf.beat_schedule = {

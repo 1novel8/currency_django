@@ -7,7 +7,7 @@ HOST_PORT = settings.HOST_PORT
 EMAIL_HOST_USER = settings.EMAIL_HOST_USER
 
 
-@shared_task()
+@shared_task(queue='email')
 def send_new_password(new_password: str, email: str) -> None:
     subject = 'Password reset!'
 

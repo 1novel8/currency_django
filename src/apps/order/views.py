@@ -27,10 +27,8 @@ class OrderViewSet(
     service = OrderService()
 
     def get_queryset(self) -> QuerySet[Order]:
-        user = self.request.user
-        if user.is_authenticated:
-            return Order.objects.filter(wallet__user=user).all()
-        return Order.objects.all()
+        queryset = self.service.get_queryset(user=self.request.user)
+        return queryset
 
     def perform_create(self, serializer: OrderSerializer) -> None:
         self.service.create(user=self.request.user, **serializer.validated_data)

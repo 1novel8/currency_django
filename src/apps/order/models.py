@@ -24,7 +24,7 @@ class Order(BaseModel):
         max_length=10,
         blank=False,
         choices=OrderType.choices(),
-        default=OrderType.BUY.name,
+        default=OrderType.BUY.value,
     )
     finished_at = models.DateTimeField(
         "Finished at",
@@ -36,7 +36,7 @@ class Order(BaseModel):
         max_length=15,
         blank=False,
         choices=OrderStatus.choices(),
-        default=OrderStatus.IN_PROGRESS.name,
+        default=OrderStatus.IN_PROGRESS.value,
     )
     wallet = models.ForeignKey(
         'user.Wallet',

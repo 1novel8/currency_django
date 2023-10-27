@@ -1,5 +1,7 @@
 from typing import Any
 
+from django.db.models import QuerySet
+
 from apps.authentication.exceptions import EmailAlreadyExists
 from apps.base.exceptions import NotFound
 from apps.base.services import BaseService
@@ -32,6 +34,9 @@ class UserService(BaseService):
 
 class WalletService(BaseService):
     repository = WalletRepository()
+
+    def get_queryset(self, user: User) -> QuerySet[Wallet]:
+        return self.repository.get_queryset(user=user)
 
     def create(self, **kwargs: Any) -> Wallet | Any:
         currency = kwargs['currency']

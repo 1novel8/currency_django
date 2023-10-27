@@ -14,7 +14,7 @@ class CustomUserManager(
             self,
             username: str,
             email: str, password: str,
-            role: str = Role.USER.name,
+            role: str = Role.USER.value,
             is_superuser: bool = False,
             **extra_fields: dict[str, Any]
     ):
@@ -41,7 +41,7 @@ class CustomUserManager(
             username='admin',
             email=email,
             password=password,
-            role=Role.ADMIN.name,
+            role=Role.ADMIN.value,
             is_superuser=True,
         )
         return user

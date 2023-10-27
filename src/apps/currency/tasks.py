@@ -12,7 +12,7 @@ HOST_PORT = settings.HOST_PORT
 EMAIL_HOST_USER = settings.EMAIL_HOST_USER
 
 
-@shared_task(queue='periodic')
+@shared_task(queue='orders')
 def currency_updated_notification() -> None:
     updated_currencies = (Currency.objects
                           .filter(updated_at__gte=timezone.now() - NOTIFICATION_PERIOD)

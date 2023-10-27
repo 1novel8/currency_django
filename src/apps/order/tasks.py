@@ -5,14 +5,14 @@ from apps.base.enums import OrderStatus, OrderType
 from apps.order.models import Order
 
 
-@shared_task(queue='periodic')
+@shared_task(queue='orders')
 def check_orders() -> None:
     check_order = {
-        OrderType.BUY.name: check_buy_order,
-        OrderType.SALE.name: check_sale_order,
+        OrderType.BUY.value: check_buy_order,
+        OrderType.SALE.value: check_sale_order,
     }
     orders_in_progress = (Order.objects
-                          .filter(status=OrderStatus.IN_PROGRESS.name)
+                          .filter(status=OrderStatus.IN_PROGRESS.value)
                           .select_related('wallet__currency', 'wallet__user').all())
     for order in orders_in_progress:
         check_order[order.type](order=order)
@@ -29,7 +29,7 @@ def check_buy_order(order: Order) -> None:
     total_price = order.price * order.count
     if user.balance < total_price:
         # if user hove not enough money - None & set finished_at now
-        order.status = OrderStatus.CANCELED.name
+        order.status = OrderStatus.CANCELED.value
         order.finished_at = timezone.now()
         order.save()
         return None
@@ -41,7 +41,7 @@ def check_buy_order(order: Order) -> None:
     wallet.balance += order.count
     wallet.save()
     # finish order
-    order.status = OrderStatus.DONE.name
+    order.status = OrderStatus.DONE.value
     order.finished_at = timezone.now()
     order.save()
 
@@ -58,7 +58,7 @@ def check_sale_order(order: Order) -> None:
 
     if wallet.balance < order.count:
         # if user have not enough currency - None & set finished_at now
-        order.status = OrderStatus.CANCELED.name
+        order.status = OrderStatus.CANCELED.value
         order.finished_at = timezone.now()
         order.save()
         return None
@@ -70,7 +70,7 @@ def check_sale_order(order: Order) -> None:
     user.balance += total_price
     user.save()
     # finish order
-    order.status = OrderStatus.DONE.name
+    order.status = OrderStatus.DONE.value
     order.finished_at = timezone.now()
     order.save()
 

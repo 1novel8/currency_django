@@ -5,7 +5,7 @@ from apps.order.exceptions import OrderAlreadyFinishedException
 from apps.order.services import OrderService
 
 raw_order_buy = {
-    'type': OrderType.BUY.name,
+    'type': OrderType.BUY.value,
     'price': 12,
     'count': 12,
 }
@@ -16,7 +16,7 @@ def test_order_create(user1, currency_usd, wallet_usd_user1):
     service = OrderService()
     order = service.create(user=user1, wallet=wallet_usd_user1, **raw_order_buy)
 
-    assert order.status == OrderStatus.IN_PROGRESS.name
+    assert order.status == OrderStatus.IN_PROGRESS.value
     assert order.type == raw_order_buy['type']
     assert order.price == raw_order_buy['price']
     assert order.count == raw_order_buy['count']
@@ -28,7 +28,7 @@ def test_order_cancel(order_wallet_usd_user1):
     service = OrderService()
     service.cancel(order_pk=order_wallet_usd_user1.id)
     order = service.get_by_pk(pk=order_wallet_usd_user1.id)
-    assert order.status == OrderStatus.CANCELED.name
+    assert order.status == OrderStatus.CANCELED.value
     assert order.finished_at is not None
 
 
