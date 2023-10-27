@@ -14,7 +14,7 @@ def test_order_create(user1, wallet_usd_user1) -> None:  # type: ignore
     response = client.post(
         url,
         {
-            'type': OrderType.BUY.value,
+            'type': OrderType.BUY.name,
             'price': 12,
             'count': 12,
             'wallet': wallet_usd_user1.id

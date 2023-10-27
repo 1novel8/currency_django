@@ -49,7 +49,7 @@ def wallet_usd_user1(currency_usd: Currency, user1: User):
 @pytest.fixture
 def order_wallet_usd_user1(wallet_usd_user1):
     order = Order.objects.create(
-        type=OrderType.BUY.value,
+        type=OrderType.BUY,
         price=12,
         count=12,
         wallet=wallet_usd_user1,

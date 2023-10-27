@@ -32,7 +32,7 @@ class User(
         max_length=10,
         blank=False,
         choices=Role.choices(),
-        default=Role.USER.value,
+        default=Role.USER,
     )
     balance = models.DecimalField(
         "Balance",
@@ -47,7 +47,7 @@ class User(
 
     @property
     def is_staff(self) -> bool:
-        return self.role == Role.ADMIN.value
+        return self.role == Role.ADMIN
 
     USERNAME_FIELD = 'email'
 

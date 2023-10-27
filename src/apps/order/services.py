@@ -27,8 +27,8 @@ class OrderService(BaseService):
 
     def cancel(self, order_pk: int) -> None:
         order = self.get_by_pk(pk=order_pk)
-        if order.status != OrderStatus.IN_PROGRESS.value:
+        if order.status != OrderStatus.IN_PROGRESS:
             raise OrderAlreadyFinishedException
-        order.status = OrderStatus.CANCELED.value
+        order.status = OrderStatus.CANCELED
         order.finished_at = timezone.now()
         order.save()
