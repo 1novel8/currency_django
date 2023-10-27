@@ -9,7 +9,7 @@ class OrderRepository(BaseRepository):
     model = Order
 
     @staticmethod
-    def get_queryset(user: User | None) -> QuerySet[Order]:
+    def get_orders_by_user(user: User | None) -> QuerySet[Order]:
         if user:
             return Order.objects.filter(wallet__user=user).all()
         return Order.objects.all()

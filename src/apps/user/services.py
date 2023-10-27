@@ -35,8 +35,8 @@ class UserService(BaseService):
 class WalletService(BaseService):
     repository = WalletRepository()
 
-    def get_queryset(self, user: User) -> QuerySet[Wallet]:
-        return self.repository.get_queryset(user=user)
+    def get_wallets_by_user(self, user: User) -> QuerySet[Wallet]:
+        return self.repository.get_wallets_by_user(user=user)
 
     def create(self, **kwargs: Any) -> Wallet | Any:
         currency = kwargs['currency']

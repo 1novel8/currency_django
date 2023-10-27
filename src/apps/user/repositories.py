@@ -29,7 +29,7 @@ class WalletRepository(BaseRepository):
     model = Wallet
 
     @staticmethod
-    def get_queryset(user: User | None) -> QuerySet[Wallet]:
+    def get_wallets_by_user(user: User | None) -> QuerySet[Wallet]:
         if user:
             return Wallet.objects.filter(user=user).all()
         return Wallet.objects.all()

@@ -15,8 +15,8 @@ from apps.user.models import User
 class OrderService(BaseService):
     repository = OrderRepository()
 
-    def get_queryset(self, user: User) -> QuerySet[Order]:
-        return self.repository.get_queryset(user=user)
+    def get_orders_by_user(self, user: User) -> QuerySet[Order]:
+        return self.repository.get_orders_by_user(user=user)
 
     def create(self, **kwargs: Any) -> Order | Any:
         wallet = kwargs['wallet']

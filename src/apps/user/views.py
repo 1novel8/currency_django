@@ -27,7 +27,7 @@ class WalletViewSet(
     service = WalletService()
 
     def get_queryset(self) -> QuerySet[Wallet]:
-        queryset = self.service.get_queryset(user=self.request.user)
+        queryset = self.service.get_wallets_by_user(user=self.request.user)
         return queryset
 
     def perform_create(self, serializer: WalletSerializer) -> None:

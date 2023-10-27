@@ -27,7 +27,7 @@ class OrderViewSet(
     service = OrderService()
 
     def get_queryset(self) -> QuerySet[Order]:
-        queryset = self.service.get_queryset(user=self.request.user)
+        queryset = self.service.get_orders_by_user(user=self.request.user)
         return queryset
 
     def perform_create(self, serializer: OrderSerializer) -> None:
