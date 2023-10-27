@@ -117,9 +117,9 @@ CELERY_BROKER_URL = os.environ.get("CELERY_BROKER")  # pylint: disable=no-member
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER")  # pylint: disable=no-member
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST = os.environ.get("EMAIL_HOST")  # pylint: disable=no-member
+EMAIL_PORT = os.environ.get("EMAIL_PORT")  # pylint: disable=no-member
+EMAIL_USE_TLS = False
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")  # pylint: disable=no-member
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")  # pylint: disable=no-member
 

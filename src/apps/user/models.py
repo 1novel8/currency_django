@@ -32,7 +32,7 @@ class User(
         max_length=10,
         blank=False,
         choices=Role.choices(),
-        default=Role.USER.name,
+        default=Role.USER,
     )
     balance = models.DecimalField(
         "Balance",
@@ -47,7 +47,7 @@ class User(
 
     @property
     def is_staff(self) -> bool:
-        return self.role == Role.ADMIN.name
+        return self.role == Role.ADMIN
 
     USERNAME_FIELD = 'email'
 
@@ -76,6 +76,9 @@ class Wallet(BaseModel):
         decimal_places=6,
         default=0,
     )
+
+    def __str__(self) -> str:
+        return f'wallet:{self.currency.name} - {self.balance}'
 
     class Meta:
         db_table = "wallet"

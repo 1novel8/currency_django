@@ -1,6 +1,7 @@
 from typing import Any
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import QuerySet
 
 from apps.base.exceptions import NotFound
 from apps.base.repositories import BaseRepository
@@ -26,6 +27,12 @@ class UserRepository(BaseRepository):
 
 class WalletRepository(BaseRepository):
     model = Wallet
+
+    @staticmethod
+    def get_wallets_by_user(user: User | None) -> QuerySet[Wallet]:
+        if user:
+            return Wallet.objects.filter(user=user).all()
+        return Wallet.objects.all()
 
     def is_exist(self, user: User, currency: Currency) -> bool:
         return self.model.objects.filter(user=user, currency=currency).exists()

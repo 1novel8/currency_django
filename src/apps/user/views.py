@@ -27,8 +27,8 @@ class WalletViewSet(
     service = WalletService()
 
     def get_queryset(self) -> QuerySet[Wallet]:
-        user = self.request.user
-        return Wallet.objects.filter(user=user).all()
+        queryset = self.service.get_wallets_by_user(user=self.request.user)
+        return queryset
 
     def perform_create(self, serializer: WalletSerializer) -> None:
         self.service.create(user=self.request.user, **serializer.validated_data)

@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class Role(Enum):
+class Role(StrEnum):
     """ User Roles"""
 
     ANALYST = 'Analyst'
@@ -13,7 +13,7 @@ class Role(Enum):
         return [(choice.name, choice.value) for choice in cls]
 
 
-class OrderType(Enum):
+class OrderType(StrEnum):
     """ Types of Orders """
 
     BUY = 'Buy'
@@ -24,7 +24,7 @@ class OrderType(Enum):
         return [(choice.name, choice.value) for choice in cls]
 
 
-class OrderStatus(Enum):
+class OrderStatus(StrEnum):
     """ Status of order """
 
     IN_PROGRESS = 'In Progress'

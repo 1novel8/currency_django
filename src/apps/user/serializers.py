@@ -8,7 +8,6 @@ class WalletSerializer(serializers.ModelSerializer):
         model = Wallet
         fields = [
             'id',
-            'user_id',
             'currency',
             'balance',
         ]
