@@ -17,7 +17,7 @@ class Order(BaseModel):
         max_digits=12,
         decimal_places=6,
         default=0,
-        blank=False,
+        null=True,
     )
     type = models.CharField(
         "Type",
