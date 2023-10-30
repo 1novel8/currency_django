@@ -9,7 +9,7 @@ from apps.order.services import OrderService
 def check_orders() -> None:
     order_service = OrderService()
     orders_in_progress = (Order.objects
-                          .filter(status=OrderStatus.IN_PROGRESS, price__isnull=True)
+                          .filter(status=OrderStatus.IN_PROGRESS, price__isnull=False)
                           .select_related('wallet__currency', 'wallet__user').all())
     for order in orders_in_progress:
         order_service.check_order(order=order)

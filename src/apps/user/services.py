@@ -6,6 +6,7 @@ from apps.authentication.exceptions import EmailAlreadyExists
 from apps.base.exceptions import NotFound
 from apps.base.services import BaseService
 from apps.currency.models import Currency
+from apps.order.models import Order
 from apps.user.exceptions import WalletAlreadyExists
 from apps.user.models import User, Wallet
 from apps.user.repositories import UserRepository, WalletRepository
@@ -37,6 +38,10 @@ class WalletService(BaseService):
 
     def get_wallets_by_user(self, user: User) -> QuerySet[Wallet]:
         return self.repository.get_wallets_by_user(user=user)
+
+    def get_wallet_orders(self, pk: int) -> QuerySet[Order]:  # pylint: disable=invalid-name
+        wallet = self.get_by_pk(pk=pk)
+        return self.repository.get_wallet_orders(wallet=wallet)
 
     def create(self, **kwargs: Any) -> Wallet | Any:
         currency = kwargs['currency']
