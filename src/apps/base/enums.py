@@ -10,7 +10,7 @@ class Role(StrEnum):
 
     @classmethod
     def choices(cls) -> list[tuple[str, str]]:
-        return [(choice.name, choice.value) for choice in cls]
+        return [(choice.value, choice.value) for choice in cls]
 
 
 class OrderType(StrEnum):
@@ -21,7 +21,7 @@ class OrderType(StrEnum):
 
     @classmethod
     def choices(cls) -> list[tuple[str, str]]:
-        return [(choice.name, choice.value) for choice in cls]
+        return [(choice.value, choice.value) for choice in cls]
 
 
 class OrderStatus(StrEnum):
@@ -33,4 +33,4 @@ class OrderStatus(StrEnum):
 
     @classmethod
     def choices(cls) -> list[tuple[str, str]]:
-        return [(choice.name, choice.value) for choice in cls]
+        return [(choice.value, choice.value) for choice in cls]

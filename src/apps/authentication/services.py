@@ -14,11 +14,12 @@ from apps.user.services import UserService
 class AuthenticationService:
     user_service = UserService()
 
-    def create_user(self, email: str, username: str, password: str) -> User:
+    def create_user(self, email: str, username: str, password: str, image: str | None = None) -> User:
         user = self.user_service.create(
             email=email,
             password=password,
             username=username,
+            image=image
         )
         return user
 
