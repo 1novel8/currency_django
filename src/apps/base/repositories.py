@@ -19,3 +19,6 @@ class BaseRepository:
             return obj
         except ObjectDoesNotExist as exc:
             raise NotFound('object not found') from exc
+
+    def get_all(self) -> Any:
+        return self.model.objects.all()  # type: ignore

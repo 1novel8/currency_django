@@ -23,6 +23,8 @@ pytest-django = "*"
 celery = "*"
 redis = "*"
 boto3 = "*"
+pillow = "*"
+django-storages = "*"
 
 [dev-packages]
 mypy = "*"

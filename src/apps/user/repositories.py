@@ -6,6 +6,7 @@ from django.db.models import QuerySet
 from apps.base.exceptions import NotFound
 from apps.base.repositories import BaseRepository
 from apps.currency.models import Currency
+from apps.order.models import Order
 from apps.user.models import User, Wallet
 
 
@@ -33,6 +34,10 @@ class WalletRepository(BaseRepository):
         if user:
             return Wallet.objects.filter(user=user).all()
         return Wallet.objects.all()
+
+    @staticmethod
+    def get_wallet_orders(wallet: Wallet) -> QuerySet[Order]:
+        return Order.objects.filter(wallet=wallet).all()
 
     def is_exist(self, user: User, currency: Currency) -> bool:
         return self.model.objects.filter(user=user, currency=currency).exists()
