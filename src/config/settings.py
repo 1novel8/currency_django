@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'storages',
 
     'apps.authentication.apps.AuthenticationConfig',
     'apps.user.apps.UserConfig',
@@ -134,3 +135,14 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')  # pylint: disable=no-member
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')  # pylint: disable=no-member
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')  # pylint: disable=no-member
+LOCALSTACK_PORT = os.getenv('LOCALSTACK_PORT')  # pylint: disable=no-member
+AWS_S3_ENDPOINT_URL = f'{os.getenv("AWS_S3_ENDPOINT_URL")}:{os.getenv("LOCALSTACK_PORT")}'  # pylint: disable=no-member
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')  # pylint: disable=no-member
+AWS_DEFAULT_ACL = os.getenv('AWS_DEFAULT_ACL')  # pylint: disable=no-member
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

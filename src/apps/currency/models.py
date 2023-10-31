@@ -21,6 +21,12 @@ class Currency(BaseModel):
         decimal_places=2,
         default=0,
     )
+    image = models.ImageField(
+        upload_to='currencies/',
+        blank=True,
+        null=True,
+        default=None,
+    )
 
     def __str__(self) -> str:
         return self.name

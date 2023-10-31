@@ -45,6 +45,13 @@ class User(
         related_name='user_subscriptions',
     )
 
+    image = models.ImageField(
+        upload_to='users/',
+        blank=True,
+        null=True,
+        default=None,
+    )
+
     @property
     def is_staff(self) -> bool:
         return self.role == Role.ADMIN

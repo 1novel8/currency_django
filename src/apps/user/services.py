@@ -27,7 +27,7 @@ class UserService(BaseService):
     def get_by_email(self, email: str) -> User | Any:
         return self.repository.get_by_email(email=email)
 
-    def create(self, email: str, username: str, password: str) -> User | Any:  # type: ignore
+    def create(self, email: str, username: str, password: str, image=None) -> User | Any:  # type: ignore
         if self.is_email_exists(email=email):
             raise EmailAlreadyExists()
 
@@ -35,6 +35,7 @@ class UserService(BaseService):
             email=email,
             username=username,
             password=password,
+            image=image
         )
         return user
 
