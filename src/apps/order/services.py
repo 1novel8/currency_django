@@ -43,10 +43,10 @@ class OrderService(BaseService):
 
     def check_order(self, order: Order) -> None:
         switch_check = {
-            OrderType.BUY.name: self._check_buy_order,
-            OrderType.SALE.name: self._check_sale_order,
+            OrderType.BUY: self._check_buy_order,
+            OrderType.SALE: self._check_sale_order,
         }
-        switch_check[order.type](order=order)
+        switch_check[order.type](order=order)  # type: ignore
 
     @staticmethod
     def _check_buy_order(order: Order) -> None:

@@ -1,8 +1,10 @@
+from decimal import Decimal
 from typing import Any
 
 from django.db.models import QuerySet
 
 from apps.authentication.exceptions import EmailAlreadyExists
+from apps.base.enums import Role
 from apps.base.exceptions import NotFound
 from apps.base.services import BaseService
 from apps.currency.models import Currency
@@ -15,13 +17,17 @@ from apps.user.repositories import UserRepository, WalletRepository
 class UserService(BaseService):
     repository = UserRepository()
 
+    def change_role(self, user: User, role: Role) -> None:
+        user.role = role
+        user.save(update_fields=('role', ))
+
     def is_email_exists(self, email: str) -> bool | Any:
         return self.repository.is_email_exists(email=email)
 
     def get_by_email(self, email: str) -> User | Any:
         return self.repository.get_by_email(email=email)
 
-    def create(self, email: str, username: str, password: str) -> User | Any:  # type: ignore
+    def create(self, email: str, username: str, password: str, image=None) -> User | Any:  # type: ignore
         if self.is_email_exists(email=email):
             raise EmailAlreadyExists()
 
@@ -29,8 +35,13 @@ class UserService(BaseService):
             email=email,
             username=username,
             password=password,
+            image=image
         )
         return user
+
+    def top_up_balance(self, user: User, count: Decimal) -> None:
+        user.balance += count
+        user.save(update_fields=('balance', ))
 
 
 class WalletService(BaseService):

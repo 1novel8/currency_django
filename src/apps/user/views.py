@@ -6,11 +6,57 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
+from apps.base.enums import Role
 from apps.base.mixins import PermissionsByActionMixin, SerializeByActionMixin
 from apps.order.serializers import OrderSerializer
-from apps.user.models import Wallet
-from apps.user.serializers import WalletSerializer
-from apps.user.services import WalletService
+from apps.user.models import User, Wallet
+from apps.user.serializers import ChangeRoleSerializer, TopUpBalanceSerializer, UserSerializer, WalletSerializer
+from apps.user.services import UserService, WalletService
+
+
+class UserViewSet(
+    SerializeByActionMixin,
+    PermissionsByActionMixin,
+    GenericViewSet,
+    RetrieveModelMixin,
+    ListModelMixin,
+):
+    permissions_by_action = {
+        'list': [permissions.IsAuthenticated],
+        'destroy': [permissions.IsAuthenticated, permissions.IsAdminUser],
+        'top_up_balance': [permissions.IsAuthenticated],
+        'change_role': [permissions.IsAdminUser],
+    }
+    serializer_class = UserSerializer
+    serialize_by_action = {
+        'top_up_balance': TopUpBalanceSerializer,
+        'change_role': ChangeRoleSerializer,
+    }
+    service = UserService()
+
+    def get_queryset(self) -> QuerySet[User]:
+        queryset = self.service.get_all()
+        if self.request.user.role == Role.USER:
+            queryset = queryset.filter(email=self.request.user.email)
+        return queryset   # type: ignore
+
+    @action(detail=True, methods=['post'])
+    def top_up_balance(self, request: Request, pk: int) -> Response:  # pylint: disable=invalid-name, unused-argument
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid()
+        user = self.get_object()
+        self.service.top_up_balance(user=user, count=serializer.validated_data['count'])
+
+        return Response(status=status.HTTP_201_CREATED)
+
+    @action(detail=True, methods=['post'])
+    def change_role(self, request: Request, pk: int) -> Response:  # pylint: disable=invalid-name, unused-argument
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid()
+        user = self.get_object()
+        self.service.change_role(user=user, role=serializer.validated_data['role'])
+
+        return Response(status=status.HTTP_201_CREATED)
 
 
 class WalletViewSet(
