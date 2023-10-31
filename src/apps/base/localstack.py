@@ -16,7 +16,7 @@ ses_client = boto3.client(
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
     aws_access_key_id=AWS_ACCESS_KEY_ID,
     region_name=AWS_DEFAULT_REGION,
-    endpoint_url=f'{AWS_S3_ENDPOINT_URL}:{LOCALSTACK_PORT}'
+    endpoint_url=f'{AWS_S3_ENDPOINT_URL}'
 )
 ses_client.verify_email_identity(EmailAddress=EMAIL_HOST_USER)
 
@@ -25,7 +25,7 @@ s3_client = boto3.client(
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
     aws_access_key_id=AWS_ACCESS_KEY_ID,
     region_name=AWS_DEFAULT_REGION,
-    endpoint_url=f'{AWS_S3_ENDPOINT_URL}:{LOCALSTACK_PORT}'
+    endpoint_url=f'{AWS_S3_ENDPOINT_URL}'
 )
 
 s3_client.create_bucket(Bucket=AWS_STORAGE_BUCKET_NAME)

@@ -1,6 +1,8 @@
 from django.db import models
+from storages.backends.s3boto3 import S3Boto3Storage
 
 from apps.base.models import BaseModel
+from apps.base.utils import upload_to
 
 
 class Currency(BaseModel):
@@ -22,7 +24,8 @@ class Currency(BaseModel):
         default=0,
     )
     image = models.ImageField(
-        upload_to='currencies/',
+        storage=S3Boto3Storage(),
+        upload_to=upload_to,
         blank=True,
         null=True,
         default=None,

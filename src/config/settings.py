@@ -144,5 +144,3 @@ LOCALSTACK_PORT = os.getenv('LOCALSTACK_PORT')  # pylint: disable=no-member
 AWS_S3_ENDPOINT_URL = f'{os.getenv("AWS_S3_ENDPOINT_URL")}:{os.getenv("LOCALSTACK_PORT")}'  # pylint: disable=no-member
 AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')  # pylint: disable=no-member
 AWS_DEFAULT_ACL = os.getenv('AWS_DEFAULT_ACL')  # pylint: disable=no-member
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

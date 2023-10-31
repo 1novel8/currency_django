@@ -1,9 +1,11 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
+from storages.backends.s3boto3 import S3Boto3Storage
 
 from apps.base.enums import Role
 from apps.base.models import BaseModel
+from apps.base.utils import upload_to
 from apps.user.managers import CustomUserManager
 
 
@@ -46,7 +48,8 @@ class User(
     )
 
     image = models.ImageField(
-        upload_to='users/',
+        storage=S3Boto3Storage(),
+        upload_to=upload_to,
         blank=True,
         null=True,
         default=None,

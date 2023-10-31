@@ -33,6 +33,7 @@ repos:
               - pytest
               - celery
               - django-storages
+              - boto3
             exclude: "tests|conftest.py|migrations"
 
   -   repo: https://github.com/pre-commit/mirrors-pylint
