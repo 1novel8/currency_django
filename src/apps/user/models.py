@@ -33,7 +33,7 @@ class User(
         "Role",
         max_length=10,
         blank=False,
-        choices=Role.choices(),
+        choices=Role.choices,
         default=Role.USER,
     )
     balance = models.DecimalField(
