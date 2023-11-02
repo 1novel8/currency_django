@@ -42,4 +42,4 @@ jobs:
           echo "DATA_DIR=${{ secrets.DATA_DIR }}" >> .env
 
       - name: Build and start containers
-        run: docker compose up
+        run: docker compose up -d
