@@ -16,12 +16,12 @@ COPY Pipfile Pipfile.lock ./
 # copy project & entrypointscripts
 COPY ./src ./src
 
-ADD entrypoint-django.sh ./
-ADD entrypoint-celery-worker.sh ./
-
 RUN python -m pip install --upgrade pip
 RUN pip install pipenv
 RUN pipenv sync
+
+ADD entrypoint-django.sh ./
+ADD entrypoint-celery-worker.sh ./
 
 # Give execute permissions to the entrypoint script
 RUN chmod +x ./entrypoint-django.sh
