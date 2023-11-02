@@ -7,13 +7,15 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from apps.base.enums import Role
-from apps.base.mixins import SerializeByActionMixin
+from apps.base.mixins import PermissionsByActionMixin, SerializeByActionMixin
+from apps.base.permissions import IsOrderInProgress
 from apps.order.models import Order
 from apps.order.serializers import OrderCancelSerializer, OrderSerializer
 from apps.order.services import OrderService
 
 
 class OrderViewSet(
+    PermissionsByActionMixin,
     SerializeByActionMixin,
     UpdateModelMixin,
     GenericViewSet,
@@ -24,6 +26,11 @@ class OrderViewSet(
         'cancel': OrderCancelSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
+    permissions_by_action = {
+        'update': [IsOrderInProgress, permissions.IsAuthenticated],
+        'partial_update': [IsOrderInProgress, permissions.IsAuthenticated],
+        'cancel': [IsOrderInProgress, permissions.IsAuthenticated],
+    }
     serializer_class = OrderSerializer
     service = OrderService()
 
@@ -31,8 +38,6 @@ class OrderViewSet(
         queryset = self.service.get_all()
         if self.request.user.role == Role.USER:
             queryset = self.service.get_orders_by_user(queryset=queryset, user=self.request.user)
-        if self.action == 'update':
-            queryset = self.service.get_orders_in_progress(queryset=queryset)
         return queryset  # type: ignore
 
     @action(detail=True, methods=['post'])

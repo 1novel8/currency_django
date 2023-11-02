@@ -88,7 +88,7 @@ class Wallet(BaseModel):
     )
 
     def __str__(self) -> str:
-        return f'wallet:{self.currency.name} - {self.balance}'
+        return f'wallet {self.id}: {self.currency.name} - {self.balance}'
 
     class Meta:
         db_table = "wallet"

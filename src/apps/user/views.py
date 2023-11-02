@@ -8,6 +8,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from apps.base.enums import Role
 from apps.base.mixins import PermissionsByActionMixin, SerializeByActionMixin
+from apps.base.permissions import IsOwnerOrAdminUser
 from apps.order.serializers import OrderSerializer
 from apps.user.models import User, Wallet
 from apps.user.serializers import ChangeRoleSerializer, TopUpBalanceSerializer, UserSerializer, WalletSerializer
@@ -23,8 +24,9 @@ class UserViewSet(
 ):
     permissions_by_action = {
         'list': [permissions.IsAuthenticated],
+        'retrieve': [permissions.IsAuthenticated],
         'destroy': [permissions.IsAuthenticated, permissions.IsAdminUser],
-        'top_up_balance': [permissions.IsAuthenticated],
+        'top_up_balance': [permissions.IsAuthenticated, IsOwnerOrAdminUser],
         'change_role': [permissions.IsAdminUser],
     }
     serializer_class = UserSerializer
@@ -36,9 +38,13 @@ class UserViewSet(
 
     def get_queryset(self) -> QuerySet[User]:
         queryset = self.service.get_all()
+        if not self.request.user.is_authenticated:
+            return queryset  # type: ignore
+        if self.request.user.role in (Role.ADMIN, Role.ANALYST):
+            return queryset  # type: ignore
         if self.request.user.role == Role.USER:
             queryset = queryset.filter(email=self.request.user.email)
-        return queryset   # type: ignore
+        return queryset  # type: ignore
 
     @action(detail=True, methods=['post'])
     def top_up_balance(self, request: Request, pk: int) -> Response:  # pylint: disable=invalid-name, unused-argument
@@ -82,6 +88,8 @@ class WalletViewSet(
     service = WalletService()
 
     def get_queryset(self) -> QuerySet[Wallet]:
+        if not self.request.user.is_authenticated:
+            return self.service.get_all()  # type: ignore
         queryset = self.service.get_wallets_by_user(user=self.request.user)
         return queryset
 
