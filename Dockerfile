@@ -24,6 +24,6 @@ RUN pip install pipenv
 RUN pipenv sync
 
 # Give execute permissions to the entrypoint script
-RUN chmod 777 ./entrypoint-django.sh
+RUN chmod +x ./entrypoint-django.sh
 # Give execute permissions to the entrypoint script
-RUN chmod 777 ./entrypoint-celery-worker.sh
+RUN chmod +x ./entrypoint-celery-worker.sh
