@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
-  build:
+  build-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -43,3 +43,5 @@ jobs:
 
       - name: Build and start containers
         run: docker compose up -d
+      - name: Check tests
+        run: docker compose -f docker-compose.yml exec app pipenv run pytest src/.
