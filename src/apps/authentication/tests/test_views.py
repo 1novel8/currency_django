@@ -17,7 +17,7 @@ def test_login_view(user1) -> None:  # type: ignore
         format='json'
     )
 
-    assert response.status_code == 301
+    assert response.status_code == 201
     assert 'token' in response.data
 
 
