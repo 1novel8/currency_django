@@ -13,33 +13,33 @@ jobs:
       - name: Create env file
         run: |
           touch .env
-          echo DJANGO_SECRET_KEY=${{ vars.DJANGO_SECRET_KEY }} >> .env
-          echo DJANGO_PORT=${{ vars.DJANGO_PORT }} >> .env
-          echo DJANGO_HOST=${{ vars.DJANGO_HOST }} >> .env
-          echo POSTGRES_NAME=${{ vars.POSTGRES_NAME }} >> .env
-          echo POSTGRES_TEST_NAME=${{ vars.POSTGRES_TEST_NAME }} >> .env
-          echo POSTGRES_USER=${{ vars.POSTGRES_USER }} >> .env
-          echo POSTGRES_PASSWORD=${{ vars.POSTGRES_PASSWORD }} >> .env
-          echo POSTGRES_PORT=${{ vars.POSTGRES_PORT }} >> .env
-          echo POSTGRES_HOST=${{ vars.POSTGRES_HOST }} >> .env
+          echo DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env
+          echo DJANGO_PORT=${{ secrets.DJANGO_PORT }} >> .env
+          echo DJANGO_HOST=${{ secrets.DJANGO_HOST }} >> .env
+          echo POSTGRES_NAME=${{ secrets.POSTGRES_NAME }} >> .env
+          echo POSTGRES_TEST_NAME=${{ secrets.POSTGRES_TEST_NAME }} >> .env
+          echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
+          echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
+          echo POSTGRES_PORT=${{ secrets.POSTGRES_PORT }} >> .env
+          echo POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} >> .env
           echo TIMEZONE=${{ secrets.TIMEZONE }} >> .env
-          echo CELERY_BROKER=${{ vars.CELERY_BROKER }} >> .env
-          echo CELERY_RESULT_BACKEND=${{ vars.CELERY_RESULT_BACKEND }} >> .env
-          echo EMAIL_HOST_USER=${{ vars.EMAIL_HOST_USER }} >> .env
-          echo EMAIL_HOST_PASSWORD=${{ vars.EMAIL_HOST_PASSWORD }} >> .env
-          echo EMAIL_HOST=${{ vars.EMAIL_HOST }} >> .env
-          echo EMAIL_PORT=${{ vars.EMAIL_PORT }} >> .env
-          echo AWS_ACCESS_KEY_ID=${{ vars.AWS_ACCESS_KEY_ID }} >> .env
-          echo AWS_SECRET_ACCESS_KEY=${{ vars.AWS_SECRET_ACCESS_KEY }} >> .env
-          echo AWS_DEFAULT_REGION=${{ vars.AWS_DEFAULT_REGION }} >> .env
-          echo AWS_S3_ENDPOINT_URL=${{ vars.AWS_S3_ENDPOINT_URL }} >> .env
-          echo AWS_STORAGE_BUCKET_NAME=${{ vars.AWS_STORAGE_BUCKET_NAME }} >> .env
-          echo AWS_DEFAULT_ACL=${{ vars.AWS_DEFAULT_ACL }} >> .env
-          echo GATEWAY_LISTEN=${{ vars.GATEWAY_LISTEN }} >> .env
-          echo LOCALSTACK_PORT=${{ vars.LOCALSTACK_PORT }} >> .env
-          echo SERVICES=${{ vars.SERVICES }} >> .env
-          echo STORAGE_PATH=${{ vars.STORAGE_PATH }} >> .env
-          echo DATA_DIR=${{ vars.DATA_DIR }} >> .env
+          echo CELERY_BROKER=${{ secrets.CELERY_BROKER }} >> .env
+          echo CELERY_RESULT_BACKEND=${{ secrets.CELERY_RESULT_BACKEND }} >> .env
+          echo EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }} >> .env
+          echo EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }} >> .env
+          echo EMAIL_HOST=${{ secrets.EMAIL_HOST }} >> .env
+          echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
+          echo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} >> .env
+          echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} >> .env
+          echo AWS_DEFAULT_REGION=${{ secrets.AWS_DEFAULT_REGION }} >> .env
+          echo AWS_S3_ENDPOINT_URL=${{ secrets.AWS_S3_ENDPOINT_URL }} >> .env
+          echo AWS_STORAGE_BUCKET_NAME=${{ secrets.AWS_STORAGE_BUCKET_NAME }} >> .env
+          echo AWS_DEFAULT_ACL=${{ secrets.AWS_DEFAULT_ACL }} >> .env
+          echo GATEWAY_LISTEN=${{ secrets.GATEWAY_LISTEN }} >> .env
+          echo LOCALSTACK_PORT=${{ secrets.LOCALSTACK_PORT }} >> .env
+          echo SERVICES=${{ secrets.SERVICES }} >> .env
+          echo STORAGE_PATH=${{ secrets.STORAGE_PATH }} >> .env
+          echo DATA_DIR=${{ secrets.DATA_DIR }} >> .env
 
       - name: Build and start containers
         run: docker compose up
