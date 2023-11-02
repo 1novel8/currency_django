@@ -1,36 +1,24 @@
-from enum import Enum
+from django.db import models
 
 
-class Role(Enum):
+class Role(models.TextChoices):
     """ User Roles"""
 
     ANALYST = 'Analyst'
     USER = 'User'
     ADMIN = 'Admin'
 
-    @classmethod
-    def choices(cls) -> list[tuple[str, str]]:
-        return [(choice.name, choice.value) for choice in cls]
 
-
-class OrderType(Enum):
+class OrderType(models.TextChoices):
     """ Types of Orders """
 
     BUY = 'Buy'
     SALE = 'Sale'
 
-    @classmethod
-    def choices(cls) -> list[tuple[str, str]]:
-        return [(choice.name, choice.value) for choice in cls]
 
-
-class OrderStatus(Enum):
+class OrderStatus(models.TextChoices):
     """ Status of order """
 
     IN_PROGRESS = 'In Progress'
     DONE = 'Done'
     CANCELED = 'Canceled'
-
-    @classmethod
-    def choices(cls) -> list[tuple[str, str]]:
-        return [(choice.name, choice.value) for choice in cls]

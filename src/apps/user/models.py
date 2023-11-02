@@ -1,9 +1,11 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
+from storages.backends.s3boto3 import S3Boto3Storage
 
 from apps.base.enums import Role
 from apps.base.models import BaseModel
+from apps.base.utils import upload_to
 from apps.user.managers import CustomUserManager
 
 
@@ -31,8 +33,8 @@ class User(
         "Role",
         max_length=10,
         blank=False,
-        choices=Role.choices(),
-        default=Role.USER.name,
+        choices=Role.choices,
+        default=Role.USER,
     )
     balance = models.DecimalField(
         "Balance",
@@ -45,9 +47,17 @@ class User(
         related_name='user_subscriptions',
     )
 
+    image = models.ImageField(
+        storage=S3Boto3Storage(),
+        upload_to=upload_to,
+        blank=True,
+        null=True,
+        default=None,
+    )
+
     @property
     def is_staff(self) -> bool:
-        return self.role == Role.ADMIN.name
+        return self.role == Role.ADMIN
 
     USERNAME_FIELD = 'email'
 
@@ -76,6 +86,9 @@ class Wallet(BaseModel):
         decimal_places=6,
         default=0,
     )
+
+    def __str__(self) -> str:
+        return f'wallet {self.id}: {self.currency.name} - {self.balance}'
 
     class Meta:
         db_table = "wallet"

@@ -7,7 +7,7 @@ from apps.authentication.exceptions import NewPasswordCannotBeOld
 
 class RegisterSerializer(serializers.Serializer):
     """ Serializer for registration """
-
+    image = serializers.ImageField(required=False)
     username = serializers.CharField(required=True, max_length=50)
     email = serializers.EmailField(required=True)
     password = serializers.CharField(required=True, max_length=200, write_only=True)

@@ -16,9 +16,20 @@ services:
     entrypoint: ./entrypoint-django.sh
     healthcheck:
       test: curl --fail http://localhost:8000/admin/ || exit 1
-      interval: 10s
+      interval: 15s
       timeout: 5s
       retries: 5
+
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "${LOCALSTACK_PORT}:${LOCALSTACK_PORT}"            # LocalStack Gateway
+#      - "4510-4559:4510-4559"  # external services port range
+    env_file:
+      - .env
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/tmp/localstack:/tmp/localstack"
 
   worker:
     build:
@@ -68,3 +79,6 @@ services:
 
 volumes:
   postgres_data:
+
+networks:
+  default:
