@@ -13,7 +13,7 @@ jobs:
       - name: Create env file
         run: |
           touch .env
-          echo DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env
+          echo "DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
           echo DJANGO_PORT=${{ secrets.DJANGO_PORT }} >> .env
           echo DJANGO_HOST=${{ secrets.DJANGO_HOST }} >> .env
           echo POSTGRES_NAME=${{ secrets.POSTGRES_NAME }} >> .env
