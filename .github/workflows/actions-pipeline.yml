@@ -5,17 +5,41 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
-  Explore-GitHub-Actions:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+      - uses: actions/checkout@v3
+
+      - name: Create env file
         run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          touch .env
+          echo DJANGO_SECRET_KEY=${{ vars.DJANGO_SECRET_KEY }} >> .env
+          echo DJANGO_PORT=${{ vars.DJANGO_PORT }} >> .env
+          echo DJANGO_HOST=${{ vars.DJANGO_HOST }} >> .env
+          echo POSTGRES_NAME=${{ vars.POSTGRES_NAME }} >> .env
+          echo POSTGRES_TEST_NAME=${{ vars.POSTGRES_TEST_NAME }} >> .env
+          echo POSTGRES_USER=${{ vars.POSTGRES_USER }} >> .env
+          echo POSTGRES_PASSWORD=${{ vars.POSTGRES_PASSWORD }} >> .env
+          echo POSTGRES_PORT=${{ vars.POSTGRES_PORT }} >> .env
+          echo POSTGRES_HOST=${{ vars.POSTGRES_HOST }} >> .env
+          echo TIMEZONE=${{ vars.TIMEZONE }} >> .env
+          echo CELERY_BROKER=${{ vars.CELERY_BROKER }} >> .env
+          echo CELERY_RESULT_BACKEND=${{ vars.CELERY_RESULT_BACKEND }} >> .env
+          echo EMAIL_HOST_USER=${{ vars.EMAIL_HOST_USER }} >> .env
+          echo EMAIL_HOST_PASSWORD=${{ vars.EMAIL_HOST_PASSWORD }} >> .env
+          echo EMAIL_HOST=${{ vars.EMAIL_HOST }} >> .env
+          echo EMAIL_PORT=${{ vars.EMAIL_PORT }} >> .env
+          echo AWS_ACCESS_KEY_ID=${{ vars.AWS_ACCESS_KEY_ID }} >> .env
+          echo AWS_SECRET_ACCESS_KEY=${{ vars.AWS_SECRET_ACCESS_KEY }} >> .env
+          echo AWS_DEFAULT_REGION=${{ vars.AWS_DEFAULT_REGION }} >> .env
+          echo AWS_S3_ENDPOINT_URL=${{ vars.AWS_S3_ENDPOINT_URL }} >> .env
+          echo AWS_STORAGE_BUCKET_NAME=${{ vars.AWS_STORAGE_BUCKET_NAME }} >> .env
+          echo AWS_DEFAULT_ACL=${{ vars.AWS_DEFAULT_ACL }} >> .env
+          echo GATEWAY_LISTEN=${{ vars.GATEWAY_LISTEN }} >> .env
+          echo LOCALSTACK_PORT=${{ vars.LOCALSTACK_PORT }} >> .env
+          echo SERVICES=${{ vars.SERVICES }} >> .env
+          echo STORAGE_PATH=${{ vars.STORAGE_PATH }} >> .env
+          echo DATA_DIR=${{ vars.DATA_DIR }} >> .env
+
+      - name: Build and start MySQL container
+        run: docker compose up
