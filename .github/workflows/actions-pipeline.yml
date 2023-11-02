@@ -22,7 +22,7 @@ jobs:
           echo POSTGRES_PASSWORD=${{ vars.POSTGRES_PASSWORD }} >> .env
           echo POSTGRES_PORT=${{ vars.POSTGRES_PORT }} >> .env
           echo POSTGRES_HOST=${{ vars.POSTGRES_HOST }} >> .env
-          echo TIMEZONE=${{ vars.TIMEZONE }} >> .env
+          echo TIMEZONE=${{ secrets.TIMEZONE }} >> .env
           echo CELERY_BROKER=${{ vars.CELERY_BROKER }} >> .env
           echo CELERY_RESULT_BACKEND=${{ vars.CELERY_RESULT_BACKEND }} >> .env
           echo EMAIL_HOST_USER=${{ vars.EMAIL_HOST_USER }} >> .env
@@ -41,5 +41,5 @@ jobs:
           echo STORAGE_PATH=${{ vars.STORAGE_PATH }} >> .env
           echo DATA_DIR=${{ vars.DATA_DIR }} >> .env
 
-      - name: Build and start MySQL container
+      - name: Build and start containers
         run: docker compose up
