@@ -22,8 +22,11 @@ RUN pipenv sync
 
 ADD entrypoint-django.sh ./
 ADD entrypoint-celery-worker.sh ./
+ADD entrypoint-celery-schedule.sh ./
 
 # Give execute permissions to the entrypoint script
 RUN chmod +x ./entrypoint-django.sh
 # Give execute permissions to the entrypoint script
 RUN chmod +x ./entrypoint-celery-worker.sh
+# Give execute permissions to the entrypoint script
+RUN chmod +x ./entrypoint-celery-schedule.sh

@@ -1,9 +1,11 @@
+from decimal import Decimal
 from typing import Any
 
 from django.core.exceptions import ObjectDoesNotExist
 
 from apps.base.services import BaseService
 from apps.currency.exceptions import UserAlreadySubscribedException, UserHaveNoSubscriptionException
+from apps.currency.models import Currency
 from apps.currency.repositories import CurrencyRepository
 from apps.user.models import User
 
@@ -36,3 +38,15 @@ class CurrencyService(BaseService):
             return subscription
         except ObjectDoesNotExist:
             return None
+
+    def get_buy_name(self, name: str) -> Currency:
+        return self.repository.get_buy_name(name=name)
+
+    def update_price(self, name: str, price_for_sale: Decimal, price_for_buy: Decimal) -> Currency:
+        currency = self.get_buy_name(name=name)
+        currency = self.repository.update_price(
+            currency=currency,
+            price_for_sale=price_for_sale,
+            price_for_buy=price_for_buy
+        )
+        return currency

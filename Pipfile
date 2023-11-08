@@ -25,6 +25,7 @@ redis = "*"
 boto3 = "*"
 pillow = "*"
 django-storages = "*"
+kafka-python = "*"
 
 [dev-packages]
 mypy = "*"

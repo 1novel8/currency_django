@@ -144,3 +144,7 @@ LOCALSTACK_PORT = os.getenv('LOCALSTACK_PORT')  # pylint: disable=no-member
 AWS_S3_ENDPOINT_URL = f'{os.getenv("AWS_S3_ENDPOINT_URL")}:{os.getenv("LOCALSTACK_PORT")}'  # pylint: disable=no-member
 AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')  # pylint: disable=no-member
 AWS_DEFAULT_ACL = os.getenv('AWS_DEFAULT_ACL')  # pylint: disable=no-member
+
+KAFKA_HOST = os.getenv('KAFKA_HOST')  # pylint: disable=no-member
+KAFKA_PORT = os.getenv('KAFKA_PORT')  # pylint: disable=no-member
+KAFKA_URL = os.getenv('KAFKA_URL')  # pylint: disable=no-member

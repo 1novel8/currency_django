@@ -19,6 +19,8 @@ services:
       interval: 15s
       timeout: 5s
       retries: 5
+    networks:
+      - default
 
   localstack:
     image: localstack/localstack
@@ -29,7 +31,8 @@ services:
       - .env
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - "/tmp/localstack:/tmp/localstack"
+    networks:
+      - default
 
   worker:
     build:
@@ -48,6 +51,8 @@ services:
         condition: service_started
       schedule:
         condition: service_started
+    networks:
+      - default
 
   schedule:
     build:
@@ -63,6 +68,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_started
+    networks:
+      - default
 
   db:
     image: postgres
@@ -72,13 +79,19 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - .env
+    networks:
+      - default
 
   redis:
     image: redis
     restart: always
+    networks:
+      - default
 
 volumes:
   postgres_data:
 
 networks:
   default:
+    external: true
+    name: trading

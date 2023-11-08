@@ -17,6 +17,12 @@ class CurrencySerializer(serializers.ModelSerializer):
         ]
 
 
+class CurrencyUpdateSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=20, required=True)
+    price_for_buy = serializers.DecimalField(max_digits=12, decimal_places=2, required=True)
+    price_for_sale = serializers.DecimalField(max_digits=12, decimal_places=2, required=True)
+
+
 class CurrencySubscribeSerializer(serializers.Serializer):
     pass
 
