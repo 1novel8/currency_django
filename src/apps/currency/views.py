@@ -50,12 +50,12 @@ class CurrencyViewSet(
     service = CurrencyService()
 
     @action(detail=True, methods=['post'])
-    def subscribe(self, request: Request, pk: str) -> Response:  # pylint: disable=invalid-name
+    def subscribe(self, request: Request, pk: str) -> Response:
         self.service.subscribe(user=request.user, currency_pk=int(pk))
         return Response(status=status.HTTP_201_CREATED)
 
     @action(detail=True, methods=['post'])
-    def unsubscribe(self, request: Request, pk: str) -> Response:  # pylint: disable=invalid-name
+    def unsubscribe(self, request: Request, pk: str) -> Response:
         self.service.unsubscribe(user=request.user, currency_pk=int(pk))
         return Response(status=status.HTTP_204_NO_CONTENT)
 

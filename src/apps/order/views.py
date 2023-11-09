@@ -41,7 +41,7 @@ class OrderViewSet(
         return queryset  # type: ignore
 
     @action(detail=True, methods=['post'])
-    def cancel(self, request: Request, pk: str) -> Response:  # pylint: disable=invalid-name, unused-argument
+    def cancel(self, request: Request, pk: str) -> Response:
         self.service.cancel(order_pk=int(pk))
         return Response(status=status.HTTP_200_OK)
 

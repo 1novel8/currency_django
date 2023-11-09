@@ -13,7 +13,7 @@ class BaseRepository:
         obj = self.model.objects.create(**kwargs)  # type: ignore
         return obj
 
-    def get_by_pk(self, pk: int) -> Any:  # pylint: disable=invalid-name
+    def get_by_pk(self, pk: int) -> Any:
         try:
             obj = self.model.objects.get(id=pk)  # type: ignore
             return obj

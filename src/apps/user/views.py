@@ -100,7 +100,7 @@ class WalletViewSet(
         self.service.delete(user=self.request.user, wallet=instance)
 
     @action(detail=True, methods=['get'])
-    def history(self, request: Request, pk: int) -> Response:  # pylint: disable=invalid-name, unused-argument
+    def history(self, request: Request, pk: int) -> Response:
         orders = self.service.get_wallet_orders(pk=pk)
         serializer = self.get_serializer(orders, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
