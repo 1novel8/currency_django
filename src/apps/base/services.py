@@ -9,7 +9,7 @@ class BaseService:
     def get_all(self) -> Any:
         return self.repository.get_all()
 
-    def get_by_pk(self, pk: int) -> Any:  # pylint: disable=invalid-name
+    def get_by_pk(self, pk: int) -> Any:
         return self.repository.get_by_pk(pk=pk)
 
     def create(self, **kwargs: Any) -> Any:

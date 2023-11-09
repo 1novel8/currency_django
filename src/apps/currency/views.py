@@ -1,3 +1,5 @@
+from django.conf import settings
+from kafka import KafkaProducer
 from rest_framework import permissions, status
 from rest_framework.decorators import action
 from rest_framework.mixins import (
@@ -48,11 +50,17 @@ class CurrencyViewSet(
     service = CurrencyService()
 
     @action(detail=True, methods=['post'])
-    def subscribe(self, request: Request, pk: str) -> Response:  # pylint: disable=invalid-name
+    def subscribe(self, request: Request, pk: str) -> Response:
         self.service.subscribe(user=request.user, currency_pk=int(pk))
         return Response(status=status.HTTP_201_CREATED)
 
     @action(detail=True, methods=['post'])
-    def unsubscribe(self, request: Request, pk: str) -> Response:  # pylint: disable=invalid-name
+    def unsubscribe(self, request: Request, pk: str) -> Response:
         self.service.unsubscribe(user=request.user, currency_pk=int(pk))
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def perform_create(self, serializer: CurrencySerializer) -> None:
+        super().perform_create(serializer)
+        producer = KafkaProducer(bootstrap_servers=settings.KAFKA_URL)
+        producer.send('new_currencies', value=serializer.validated_data['name'].encode('utf-8'))
+        producer.flush()

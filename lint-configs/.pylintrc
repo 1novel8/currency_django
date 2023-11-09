@@ -1,9 +1,9 @@
 [MASTER]
-ignore-paths = ^src/apps/.+/migrations/.*,^src/apps/.+/tests/.*,src/conftest.py
+ignore-paths = ^src/apps/.+/migrations/.*,^src/apps/.+/tests/.*,src/conftest.py,^src/config/settings.py
 max-line-length = 120
 
 [MESSAGES CONTROL]
-disable = C0114, C0415, C0115, C0116, R0903, R0913, E0401, R0801
+disable = C0114, C0415, C0115, C0116, R0903, R0913, E0401, R0801, W0613
 
 [FORMAT]
 
@@ -12,6 +12,8 @@ disable = C0114, C0415, C0115, C0116, R0903, R0913, E0401, R0801
 [REPORTS]
 
 [BASIC]
+
+good-names=pk,
 
 [TYPECHECK]
 

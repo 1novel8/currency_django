@@ -14,11 +14,12 @@ app.conf.task_queues = (
     Queue('default', Exchange('default'), routing_key='default'),
     Queue('email',  Exchange('email'),   routing_key='email'),
     Queue('orders',  Exchange('orders'),   routing_key='orders'),
+    Queue('currency', Exchange('currency'), routing_key='currency'),
 )
 
 app.conf.beat_schedule = {
-    'currency-updated-notification': {
-        'task': 'apps.currency.tasks.currency_updated_notification',
+    'receive-updated-currencies': {
+        'task': 'apps.currency.tasks.receive_updated_currencies',
         'schedule': 300,
     }
 }

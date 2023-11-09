@@ -7,12 +7,12 @@ from dotenv import load_dotenv  # pylint: disable=import-error
 load_dotenv()  # load .env
 
 NOTIFICATION_PERIOD = timedelta(minutes=5)
-HOST_URL = os.getenv('DJANGO_HOST')  # pylint: disable=no-member
-HOST_PORT = os.getenv('DJANGO_PORT')  # pylint: disable=no-member
+HOST_URL = os.getenv('DJANGO_HOST')
+HOST_PORT = os.getenv('DJANGO_PORT')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')  # pylint: disable=no-member
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 DEBUG = True
 
@@ -70,19 +70,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_NAME'),  # pylint: disable=no-member
-        'USER': os.getenv('POSTGRES_USER'),  # pylint: disable=no-member
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),  # pylint: disable=no-member
-        'HOST': os.getenv('POSTGRES_HOST'),  # pylint: disable=no-member
-        'PORT': os.getenv('POSTGRES_PORT'),  # pylint: disable=no-member
+        'NAME': os.getenv('POSTGRES_NAME'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST'),
+        'PORT': os.getenv('POSTGRES_PORT'),
     },
     'test': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_TEST_NAME'),  # pylint: disable=no-member
-        'USER': os.getenv('POSTGRES_USER'),  # pylint: disable=no-member
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),  # pylint: disable=no-member
-        'HOST': os.getenv('POSTGRES_HOST'),  # pylint: disable=no-member
-        'PORT': os.getenv('POSTGRES_PORT'),  # pylint: disable=no-member
+        'NAME': os.getenv('POSTGRES_TEST_NAME'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST'),
+        'PORT': os.getenv('POSTGRES_PORT'),
     }
 }
 
@@ -114,15 +114,15 @@ JWT = {
     'TOKEN_EXPIRE': timedelta(days=1),
 }
 
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER")  # pylint: disable=no-member
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER")  # pylint: disable=no-member
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER")
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get("EMAIL_HOST")  # pylint: disable=no-member
-EMAIL_PORT = os.environ.get("EMAIL_PORT")  # pylint: disable=no-member
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = os.environ.get("EMAIL_PORT")
 EMAIL_USE_TLS = False
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")  # pylint: disable=no-member
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")  # pylint: disable=no-member
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
 LANGUAGE_CODE = 'en-us'
 
@@ -137,10 +137,14 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')  # pylint: disable=no-member
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')  # pylint: disable=no-member
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')  # pylint: disable=no-member
-LOCALSTACK_PORT = os.getenv('LOCALSTACK_PORT')  # pylint: disable=no-member
-AWS_S3_ENDPOINT_URL = f'{os.getenv("AWS_S3_ENDPOINT_URL")}:{os.getenv("LOCALSTACK_PORT")}'  # pylint: disable=no-member
-AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')  # pylint: disable=no-member
-AWS_DEFAULT_ACL = os.getenv('AWS_DEFAULT_ACL')  # pylint: disable=no-member
+AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+LOCALSTACK_PORT = os.getenv('LOCALSTACK_PORT')
+AWS_S3_ENDPOINT_URL = f'{os.getenv("AWS_S3_ENDPOINT_URL")}:{os.getenv("LOCALSTACK_PORT")}'
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_DEFAULT_ACL = os.getenv('AWS_DEFAULT_ACL')
+
+KAFKA_HOST = os.getenv('KAFKA_HOST')
+KAFKA_PORT = os.getenv('KAFKA_PORT')
+KAFKA_URL = os.getenv('KAFKA_URL')
